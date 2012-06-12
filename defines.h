@@ -1,3 +1,5 @@
+
+
 // only one display is supported atm
 #define MAX_DISPLAYS 1; // when set to zero, assumed unlimited :D
 #define COMMAND_LENGTH 30;

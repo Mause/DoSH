@@ -12,9 +12,15 @@
  *	Description:	DoSH = Doms Own SHell
  *
  **/
+// prototypes :D
 
-int echo(int x, int x);
-struct command echof;
-echof.function_name = "echo";
-echof.function_pointer = echo;
-int echo(int x, int y){}
+struct command_return_struct echo(int x, int y){
+	struct command_return_struct crs;
+	int i = 50;
+	while (i!=0){i--;}
+	crs.y_moved=1;
+	crs.command_id = 1;
+	crs.command_message = 'SUCCESS';
+	crs.command_status = 0;
+	return crs;
+}

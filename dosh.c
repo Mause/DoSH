@@ -13,13 +13,12 @@
  *
  **/
 
-#include "include/stdlib.h"
-#include "include/ext/screen.h"
-#include "include/string.h"
+#include "../include/stdlib.h"
+#include "../include/ext/screen.h"
+#include "../include/string.h"
 #include "defines.h"
 #include "doms_stdlib.h"
-
-#define NUM_FUNCTIONS 1; // number of functions/builtins/etc
+#include "builtins.c"
 
 struct command_return_struct {
 	int y_moved;
@@ -28,10 +27,12 @@ struct command_return_struct {
 	char * command_message;
 };
 
+/*
 struct Command {
 	char * function_name;
 	struct command_return_struct function_pointer;
 };
+*/
 
 int main() {
 
@@ -42,16 +43,10 @@ int main() {
 	int hwcount;
 	int ch; 					// will probably contain the most recent charactor entered into the keyboard
 	int ch_stat;				// contains bool indicating whether or not the current char is special
-	//struct command_return_struct functions;
-	
-	struct Command functions[NUM_FUNCTIONS] = {
-		{
-			"echo", // function_name;
-			echof // function_pointer;
-		}
-	};
-	
-	char * read_in_command[COMMAND_LENGTH];
+
+	struct command_return_struct *command_info;
+
+	char read_in_command[COMMAND_LENGTH];
 	int command_pointer = 0;
 	
 	// points to where the cursor is
@@ -82,21 +77,27 @@ int main() {
 		while (ch!=0){								// while ch is not 0
 			if (ch_stat!=0){						// if is not a special key, print it to the terminal
 				eputc(ch, x, y);					// print the ch to the terminal
-				read_in_command[command_pointer] += ch;	// append the ch the the current command
+				if (strlen(read_in_command)<COMMAND_LENGTH-1){
+					append(read_in_command, ch); 	// append the ch the the current command
+				}
 				x++;								// increment the cursor position
 			} else if (strcmp(ch_stat,0) == 0) {	// if ch was a special key
 				if (strcmp(ch,BACKSPACE) == 0) {	// if the special key was a backspace  specpnt("backspace")
 					if (x > 3){						// if the cursor is not inside the prompt
 						x--;						// decrement the cursor position
-						read_in_command[command_pointer] -= 1; // remove the last charactor from the current command
+					//	read_in_command[command_pointer] -= 1; // remove the last charactor from the current command
 						eputc(' ', x, y);			// clear spot the screen					
 					}
 				} else if (strcmp(ch,RETURN)==0) {	// if the special key was a return specpnt("return"))
 					y++;							// increment the cursor-y position
+					eputs(read_in_command, x, y);
+					y++;
+					//read_in_command = "";
+					memset(read_in_command,0x0,sizeof(read_in_command));
 					x=0;
-			//		struct command_return_struct command_info interpret_command(read_in_command, x, y);
-			//		y+=command_info.y_moved;
-					x=3;							// move the cursor to the home position
+				/*	command_info = interpret_command(read_in_command, x, y);
+					y+=command_info.y_moved;
+				*/	x=3;							// move the cursor to the home position
 					eputs(">> ", 0, y);				// try to clear spot the screen					
 				} else if (strcmp(ch, ARROW_LEFT)) {
 					if (x > 3){	x--; }				// decrement the cursor position
@@ -119,14 +120,14 @@ int main() {
 // of lines on the y-axis the command took and the exit status
 // command id that was executed :P (0 if no command was executed; ie, the command does not exist)
 // and an exit message, if any
-/*
-struct command_return_struct interpret_command(char * read_command, struct command functions, int x, int y) {
-	struct command_return_struct crs;
+
+struct command_return_struct * interpret_command(char * read_command, int x, int y) {
 	int y_moved=1; y++;
+	struct command_return_struct crs;
 	//int num_functions = (sizeof(functions)/sizeof *functions ));
 	//int num_functions = functions[ sizeof array / sizeof *array - 1 ];
-	int i;
-	for (i=0; functions[-1]!=functions[i]; i++) {
+	//int i;
+/*	for (i=0; functions[-1]!=functions[i]; i++) {
 		if (strcmp(functions[sizeof functions / sizeof *functions-1].function_name, read_command) == 0){
 			//functions[function];//(x,y);
 		} else {
@@ -134,16 +135,25 @@ struct command_return_struct interpret_command(char * read_command, struct comma
 			crs.command_message = 'NOT_FOUND';
 			crs.command_status = 1;
 		}
-	}	
-	return crs; // return the various 
-};
+	}	*//*
+	if (strcmp(read_command, 'echo') == 0) {
+		crs = echo(x,y);
+/*		crs.y_moved = 2;
+		crs.command_id = 1;
+		crs.command_message = 'SUCCESS';
+		crs.command_status = 0;
+	} else {
+		crs.y_moved = 0;
+		crs.command_id = 0;
+		crs.command_message = 'NOT_FOUND';
+		crs.command_status = 1;
+	}
+*///	return *crs; // return the various 
+}
 
-*/
+
 /*
 int echo(int x, int x);
-struct command echof;
-echof.function_name = "echo";
-echof.function_pointer = echo;
 int echo(int x, int y){}
 
 struct command_return_struct {
@@ -163,3 +173,11 @@ int command_status;
 int command_id;
 char * command_message;
 */
+
+
+
+void append(char *s, char c){
+	int len = strlen(s);
+	s[len] = c;
+	s[len + 1] = '\0';
+}
