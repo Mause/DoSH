@@ -138,12 +138,11 @@ int scrn_border_colour(int color){
 int blink_on(){}
 
 
-int loading_wheel(int x, int y, int times){ // only performs one iterations :P
+int loading_wheel(int x, int y, int times){
 	// Displays 'spinning' wheel
 	char segs[4] = {'|','/','-','\\'};
 	int seg_point = 0;
 	while (times!=0){
-		// sing us a song tonight?
 		for (seg_point=0; seg_point!=3; seg_point++){
 			eputc(segs[seg_point], x, y);
 			// at the moment, does not use a delay
@@ -174,6 +173,7 @@ int doms_type(char* msg, int x, int y, int delay)
 }
 
 
+// this function is unreliable, do not use it
 int doms_delay(int delay) {
     while (delay!=0)
 		delay--;
