@@ -20,6 +20,7 @@
 #include "doms_stdlib.h"
 #include "builtins.c"
 
+
 struct command_return_struct {
 	int y_moved;
 	int command_status;
@@ -27,22 +28,24 @@ struct command_return_struct {
 	char * command_message;
 };
 
-/*
-struct Command {
-	char * function_name;
-	struct command_return_struct function_pointer;
-};
-*/
+// TODO: implement scrolling :P
+// 		will most likely either require a buffer (array?)
+//		to store the information whilst it scrolls
+// 		will probably implement a function for this :)
+
+
+// TODO: implement previous commands; rather than writing the read_in_command to NULL :P
+// REM_COMMAND will store the constant that defines how many to remember
 
 int main() {
+	scrn_border_colour(0);
 
 	eputs("Loading", 0, 0);		// Display loading screen
 	
-	//char 
-
 	int hwcount;
-	int ch; 					// will probably contain the most recent charactor entered into the keyboard
-	int ch_stat;				// contains bool indicating whether or not the current char is special
+	int ch; 					// contains the most recent character entered into the keyboard
+	int ch_stat;				// contains boolean indicating whether or not the current ch is special
+	int breaker = false;
 
 	struct command_return_struct *command_info;
 
@@ -54,7 +57,7 @@ int main() {
 	int y=0;
 	eputc('.', 8, 0);	// Display first point of loading screen
 	//hwcount = find_hw(); // currently does not work, not sure why
-	init_screen(); 		// initialise screen to 0x8000
+	init_screen(); 		// initialize screen to 0x8000
 	scrn_border_colour(0);
 	eputc('.', 9, 0);	// Display second point of loading screen
 	init_kb();	   		// init keyboard :)
@@ -62,6 +65,8 @@ int main() {
 
 
     cls(); // clear screen
+    //asm_cls(); // assembly based screen cleaner; supposed to be much faster
+    // i think it is bugging out a bit though
 	eputs("DoSH version 1.0", x, y);  	// display DoSH version
 
 	x=3;
@@ -69,36 +74,55 @@ int main() {
 	//clock_delay(1, clock_int);	// clock delay, does not work either
 
 	eputs(">> ", 0, 1);	
-//	loading_wheel(3, 1, 4);
-	while (true){ 									// primary application loop
+
+	while (breaker!=true){ 									// primary application loop
 		ch=0;										// reset ch
-		ch = doms_getch();   						// get a charactor in the form of an int from the keyboard
+		ch = doms_getch();   						// get a character in the form of an int from the keyboard
 		ch_stat = if_special(ch);					// see if it a special key
 		while (ch!=0){								// while ch is not 0
 			if (ch_stat!=0){						// if is not a special key, print it to the terminal
 				eputc(ch, x, y);					// print the ch to the terminal
 				if (strlen(read_in_command)<COMMAND_LENGTH-1){
-					append(read_in_command, ch); 	// append the ch the the current command
+					//append(read_in_command, ch); 	// append the ch the the current command
+					read_in_command[command_pointer] = ch;
+					command_pointer++;
 				}
 				x++;								// increment the cursor position
 			} else if (strcmp(ch_stat,0) == 0) {	// if ch was a special key
 				if (strcmp(ch,BACKSPACE) == 0) {	// if the special key was a backspace  specpnt("backspace")
 					if (x > 3){						// if the cursor is not inside the prompt
 						x--;						// decrement the cursor position
-					//	read_in_command[command_pointer] -= 1; // remove the last charactor from the current command
+						command_pointer--;
+						read_in_command[command_pointer] = '\0'; // remove the last character from the current command
 						eputc(' ', x, y);			// clear spot the screen					
 					}
 				} else if (strcmp(ch,RETURN)==0) {	// if the special key was a return specpnt("return"))
-					y++;							// increment the cursor-y position
-					eputs(read_in_command, x, y);
-					y++;
-					//read_in_command = "";
-					memset(read_in_command,0x0,sizeof(read_in_command));
-					x=0;
-				/*	command_info = interpret_command(read_in_command, x, y);
-					y+=command_info.y_moved;
-				*/	x=3;							// move the cursor to the home position
-					eputs(">> ", 0, y);				// try to clear spot the screen					
+					if (true){//(strcmp(read_in_command[1],'\0')!=0){
+						y++;							// increment the cursor-y position, standard :P
+						x=0;
+						eputs(read_in_command, x, y); y++;
+						//if (memcmp(read_in_command, 'exit', COMMAND_LENGTH) == 0){		// this is technically a built-in, but it is easy to implement here :P
+						//if (strcmp(read_in_command, 'exit') == 0){
+						if (!true) {
+							breaker = true;			// this doesn't seem to work at the moment, i need to work out why
+							break;					// i will probably just write a function to compare them myself :P
+						} else {
+
+		/*					command_info = interpret_command(read_in_command, x, y);
+							y+=command_info.y_moved;
+		*/					x=3;							// move the cursor to the home position
+							while ((command_pointer)!=0){						// this will tidy up the command buffer ^^
+								read_in_command[command_pointer] = '\0';
+								command_pointer--;
+							}
+							read_in_command[0] = '\0';
+							eputs(">> ", 0, y);					
+						}
+					} else {
+						y++;
+						x=3;
+						eputs(">> ", 0, y);
+					}
 				} else if (strcmp(ch, ARROW_LEFT)) {
 					if (x > 3){	x--; }				// decrement the cursor position
 				} else if (strcmp(ch, ARROW_RIGHT)) {
@@ -112,6 +136,9 @@ int main() {
 		}
 		
 	}
+	cls();
+	eputs("SHUT. DOWN.", 0, 0);
+	abort();
 	return 0;
 }
 
@@ -123,7 +150,7 @@ int main() {
 
 struct command_return_struct * interpret_command(char * read_command, int x, int y) {
 	int y_moved=1; y++;
-	struct command_return_struct crs;
+	struct command_return_struct *crs;
 	//int num_functions = (sizeof(functions)/sizeof *functions ));
 	//int num_functions = functions[ sizeof array / sizeof *array - 1 ];
 	//int i;
@@ -148,7 +175,7 @@ struct command_return_struct * interpret_command(char * read_command, int x, int
 		crs.command_message = 'NOT_FOUND';
 		crs.command_status = 1;
 	}
-*///	return *crs; // return the various 
+*/	return *crs; // return the various 
 }
 
 
@@ -173,11 +200,3 @@ int command_status;
 int command_id;
 char * command_message;
 */
-
-
-
-void append(char *s, char c){
-	int len = strlen(s);
-	s[len] = c;
-	s[len + 1] = '\0';
-}

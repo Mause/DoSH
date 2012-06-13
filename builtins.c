@@ -1,6 +1,6 @@
 /**
  *
- *	File:		dosh.c
+ *	File:		builtins.c
  *
  *	Project:	DoSH v.10
  *	Component:	Shell built-ins
@@ -9,10 +9,9 @@
  *				Lord_DeathMatch;			
  *				Mause
  *
- *	Description:	DoSH = Doms Own SHell
+ *	Description:	contains built-in shell commands
  *
  **/
-// prototypes :D
 
 struct command_return_struct echo(int x, int y){
 	struct command_return_struct crs;

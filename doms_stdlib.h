@@ -1,9 +1,21 @@
-//
-// Doms DCPU-16 Libraries
-//
-// This contains a small selection
-// of hacked together functions
-// to assist me in my learning
+/**
+ *
+ * File: doms_stdlib.h
+ *
+ * Project: DoSH
+ * Component: custom functions
+ *
+ * Authors: Dominic May;
+ * 		   Lord_DeathMatch;
+ *		   Mause
+ *
+ * Description: contains functions i required to build DoSH;
+ *				it would be worth noting that not all these functions are used,
+ *				or, for that matter, work
+ *
+**/
+
+
 
 #include "include\ext\screen.h"
 
@@ -29,7 +41,6 @@ void init_screen() {
 }
 
 
-
 int init_kb(){
 	__asm {
 		SET PUSH, A
@@ -39,6 +50,7 @@ int init_kb(){
 	}
 	return 0;
 }
+
 
 int doms_getch(){
 	int ch;
@@ -55,6 +67,7 @@ int doms_getch(){
 	}
 	return ch;
 }
+
 
 /* returns true if val is special, false if not */
 int if_special(int val) {
@@ -92,6 +105,22 @@ int cls() {
 	}
 }
 
+
+int asm_cls(){
+	__asm {
+		SET PUSH, A
+		SET A, 0x8000
+		:asm_cls_looper
+			SET [A], 0x0
+			ADD A, 1
+			IFN A, 384
+			SET PC, asm_cls_looper
+
+		SET A, POP
+	}
+}
+
+
 int scrn_border_colour(int color){
 	__asm {
 		SET PUSH, A
@@ -105,10 +134,8 @@ int scrn_border_colour(int color){
 	return 0;
 }
 
+
 int blink_on(){}
-
-
-
 
 
 int loading_wheel(int x, int y, int times){ // only performs one iterations :P
@@ -131,7 +158,6 @@ int loading_wheel(int x, int y, int times){ // only performs one iterations :P
 }
 
 
-
 int doms_type(char* msg, int x, int y, int delay)
 {
 	int i = 0;
@@ -152,6 +178,18 @@ int doms_delay(int delay) {
     while (delay!=0)
 		delay--;
     return 0;
+}
+
+
+int doms_compare(char * sone, char * stwo){
+	// this is a placeholder for the moment :)
+	int i;
+	for (i=0;sone[i] != '\0'; i++){
+		if (strcmp(sone[i], stwo[i]) == 1){
+			return false;
+		}
+	}
+	return true;
 }
 
 
@@ -189,9 +227,7 @@ int clock_delay (int delay) { // delay in seconds
 }
 
 
-
-
-int blink_cursor(int times, int x, int y, int delay) {
+int blink_cursor(int times, int x, int y, int delay) { // this is untested
     while (times!=0) {
         eputc('|', x, y);
         doms_delay(delay);
@@ -201,9 +237,6 @@ int blink_cursor(int times, int x, int y, int delay) {
     }
     return 0;
 }
-
-
-
 
 
 int find_hw(){ // initiates hardware, returns number of connected devices
@@ -257,13 +290,12 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 }
 
 
-
-
 void scrn_setc_green(char chr, int x)
 {
 	int mem = 0x8000 + x;
 	*mem = (chr + 0xA000);
 }
+
 
 void print_number(char number, char scrn_addr)
 {

@@ -1,14 +1,28 @@
-
+/**
+ *
+ *	File:		defines.h
+ *
+ *	Project:	DoSH v.10
+ *	Component:	definitions
+ *
+ *	Authors:	Dominic May;
+ *				Lord_DeathMatch;			
+ *				Mause
+ *
+ *	Description:	contains definitions for structs and some settings :)
+ *
+ **/
 
 // only one display is supported atm
-#define MAX_DISPLAYS 1; // when set to zero, assumed unlimited :D
-#define COMMAND_LENGTH 30;
+#define MAX_DISPLAYS 1 // when set to zero, assumed unlimited :D
+#define COMMAND_LENGTH 30
+#define REM_COMMAND 5 // how many commands to remember; will be used to define the size of an array that stores the previous commands :P
 
 // define some basics
-/*typedef int bool;
+//typedef int bool;
 #define true 1;
-#define false 0; 
-*/
+#define false 0;
+
 #define SUCCESS 0;
 #define FAILURE 1;
 
