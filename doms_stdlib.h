@@ -15,21 +15,30 @@
  *
 **/
 
-
-
 #include "include\ext\screen.h"
 
-//void (*func)(char* msg, int x, int y) = &scrn_sets;
-/*
-void printf(char* msg, int x, int y)
-{
-	int i = 0;
-	for (i = 0; * (msg + i) != '\0'; i += 1)
-		eputc((*(msg + i) + 0xE000), x + i, y);
-	//	scrn_setc((*(msg + i) + 0xE000), x + i, y);
-}
-*/
 
+// prototypes to be defined :)
+void init_screen();
+void init_kb();
+int doms_getch();
+int if_special(int val);
+void cls();
+void asm_cls();
+void atlas_cls();
+int doms_scroll(char * lines);
+void scrn_border_colour(int color);
+int blink(int on_off);
+int loading_wheel(int x, int y, int times);
+void doms_type(char *msg, int x, int y, int delay);
+void doms_delay(int delay);
+int doms_compare(char * sone, char * stwo);
+int clock_delay(int delay);
+int blink_cursor(int times, int x, int y, int delay);
+int find_hw();
+
+
+//void (*func)(char* msg, int x, int y) = &scrn_sets;
 
 void init_screen() {
 	__asm{
@@ -41,14 +50,13 @@ void init_screen() {
 }
 
 
-int init_kb(){
+void init_kb(){
 	__asm {
 		SET PUSH, A
 		SET A, 0
 		HWI [key_int]
 		SET A, POP
 	}
-	return 0;
 }
 
 
@@ -97,7 +105,7 @@ int if_special(int val) {
 
 
 // 32 columns by 12 rows
-int cls() {
+void cls() {
 	int i;
 	//eputs("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ", 0,0);
 	for (i = 12; i != 0; i--) {
@@ -106,7 +114,7 @@ int cls() {
 }
 
 
-int asm_cls(){
+void asm_cls(){
 	__asm {
 		SET PUSH, A
 		SET A, 0x8000
@@ -121,7 +129,65 @@ int asm_cls(){
 }
 
 
-int scrn_border_colour(int color){
+void atlas_cls(){
+	__asm{
+		;// Clears the screen and sets the cursor to the first line (working)
+		:clear
+			SET PUSH, A
+			SET PUSH, B
+			SET PUSH, C
+
+			SET A, 0x8000
+			SET B, [video_clear]
+			SET C, [video_width]
+			MUL C, [video_height]
+			ADD C, [video_mem]
+
+		:clear_loop
+		      SET [A], B
+		      SET [1+A], B
+		      SET [2+A], B
+		      SET [3+A], B
+		      ADD A, 4
+
+		      IFN A, C
+		          SET PC, clear_loop
+
+		:video_mem
+		dat 0xF800
+		:video_font
+		dat 0x0000
+		:video_palette
+		dat 0x0000
+		:video_col
+		dat 0x7000
+		:video_cur
+		dat 0x0000
+		:video_clear
+		dat 0x7020
+		:video_width
+		dat 0x0020
+		:video_height
+		dat 0x000C
+
+		:clear_end
+			  SET C, POP
+		      SET B, POP
+		      SET A, POP
+	}
+}
+
+
+int doms_scroll(char * lines) {
+	int i;
+	for(i=0; i!=32-1; i++){
+
+	}
+	return 0;
+}
+
+
+void scrn_border_colour(int color){
 	__asm {
 		SET PUSH, A
 		SET PUSH, B
@@ -131,11 +197,10 @@ int scrn_border_colour(int color){
 		SET B, POP
 		SET A, POP
 	}
-	return 0;
 }
 
 
-int blink_on(){}
+int blink(int on_off){return 0;}
 
 
 int loading_wheel(int x, int y, int times){
@@ -157,11 +222,11 @@ int loading_wheel(int x, int y, int times){
 }
 
 
-int doms_type(char* msg, int x, int y, int delay)
+void doms_type(char* msg, int x, int y, int delay)
 {
 	int i = 0;
     int counter = 0;
-	for (i = 0; *(msg + i) != '\0'; i++)
+	for (i = 0; *(msg + i) != '\0'; i++){
 		//scrn_setc((*(msg + i) + 0xE000), x+i, 0);
         //scrn_setc((*(msg + i) + 0xE000), x+i, y);
         //doms_delay(delay);
@@ -170,19 +235,19 @@ int doms_type(char* msg, int x, int y, int delay)
         counter=counter+1;
         //printf(msg, 0,counter);
         doms_delay(delay);
+    }
 }
 
 
 // this function is unreliable, do not use it
-int doms_delay(int delay) {
-    while (delay!=0)
+void doms_delay(int delay) {
+    while (delay!=0){
 		delay--;
-    return 0;
+	}
 }
 
 
 int doms_compare(char * sone, char * stwo){
-	// this is a placeholder for the moment :)
 	int i;
 	for (i=0;sone[i] != '\0'; i++){
 		if (strcmp(sone[i], stwo[i]) == 1){
@@ -224,6 +289,7 @@ int clock_delay (int delay) { // delay in seconds
 		SET B, POP
 		SET A, POP		
 	}
+	return 0;
 }
 
 
@@ -241,7 +307,6 @@ int blink_cursor(int times, int x, int y, int delay) { // this is untested
 
 int find_hw(){ // initiates hardware, returns number of connected devices
 	int hwcount;
-	char *tmp;
 	__asm{
 		SET PUSH, A
 		SET PUSH, B
@@ -287,33 +352,4 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 		SET A, POP
 	}
 	return hwcount;
-}
-
-
-void scrn_setc_green(char chr, int x)
-{
-	int mem = 0x8000 + x;
-	*mem = (chr + 0xA000);
-}
-
-
-void print_number(char number, char scrn_addr)
-{
-    char length = 0;
-    char tmp = number;
-    while(tmp > 0)
-    {
-        length++;
-        tmp /= 10;
-    }
-    scrn_addr += length;
-    char digit;
-    while(number > 0)
-    {
-        digit = number % 10;
-        number /= 10;
-
-        *(scrn_addr) = digit + 48 + 0xC000;
-        scrn_addr--;
-    }
 }
