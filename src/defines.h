@@ -13,6 +13,18 @@
  *
  **/
 
+// Structs :D
+
+struct command_return_struct {
+	int y_moved;
+	int command_status;
+	int command_id;
+	char * command_message;
+};
+
+
+// Constants :)
+
 // only one display is supported atm
 #define MAX_DISPLAYS 1 // when set to zero, assumed unlimited :D
 #define COMMAND_LENGTH 30

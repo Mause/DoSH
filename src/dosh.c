@@ -21,13 +21,6 @@
 #include "builtins.c"
 
 
-struct command_return_struct {
-	int y_moved;
-	int command_status;
-	int command_id;
-	char * command_message;
-};
-
 // TODO: implement scrolling :P
 // 		will most likely either require a buffer (array?)
 //		to store the information whilst it scrolls
@@ -36,6 +29,7 @@ struct command_return_struct {
 
 // TODO: implement previous commands; rather than writing the read_in_command to NULL :P
 // REM_COMMAND will store the constant that defines how many to remember
+
 
 int main() {
 	// define variables :)
@@ -107,7 +101,8 @@ int main() {
 					if (true){//(strcmp(read_in_command[1],'\0')!=0){
 						y++;							// increment the cursor-y position, standard :P
 						x=0;
-						if (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
+						//if (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
+						if (!true){
 							x=0;
 							y=0;
 							breaker = true;			// this doesn't seem to work at the moment, i need to work out why
@@ -186,7 +181,8 @@ void interpret_command(char * read_command, int x, int y) {
 
 
 /*
-int echo(int x, int x);
+Reference data; don't mind me!
+
 int echo(int x, int y){}
 
 struct command_return_struct {
@@ -196,13 +192,4 @@ struct command_return_struct {
 	char * command_message;
 };
 
-struct command {
-	char * function_name;
-	struct command_return_struct function_pointer;
-};
-
-int y_moved;
-int command_status;
-int command_id;
-char * command_message;
 */
