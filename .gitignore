@@ -1,0 +1,96 @@
+# Visual Studio files #
+#######################
+*.sln
+*.sdf
+*.suo
+*.user
+*.opensdf
+*.vcxproj
+*.vcxproj.filters
+ipch/*
+
+# KDevelop4 files #
+###################
+*.kdev4
+
+# Vim and backup files #
+########################
+*.swp
+*~
+
+# Binary files #
+################
+*.exe
+*.dll
+*.lib
+*.obj
+*.log
+*.manifest
+*.res
+*.rc
+*.tlog
+*.idb
+*.pdb
+*.lastbuildstate
+*.cmake
+*.check_cache
+*.bin
+*parser.output
+
+# Unix make and binary files #
+##############################
+*.a
+Makefile
+
+# Other repos #
+###############
+standards/
+standards/*
+website/
+website/*
+
+# Distribution folder #
+#######################
+build
+dist/*
+Debug/*
+Release/*
+*/Debug/*
+*/Release/*
+
+# CMake files #
+###############
+CMakeCache.txt
+CTestCostData.txt
+CMakeFiles/*
+*/CMakeFiles/*
+*/*/CMakeFiles/*
+*/*/*/CMakeFiles/*
+*/*/*/*/CMakeFiles/*
+*.rule
+*/*.dir/*
+*/lexer.c
+*/lexer.h
+*/parser.c
+*/parser.h
+*/lexer.cpp
+*/lexer.hpp
+*/parser.cpp
+*/parser.hpp
+
+# Documentation files #
+#######################
+docs/_build/*
+docs/_doctrees/*
+docs/html/*
+*.pyc
+
+# Build artifacts #
+###################
+*.o
+*.o.rule
+*.oa
+*.oa.rule
+*.os
+*.dcpu16
+*.dobj16
