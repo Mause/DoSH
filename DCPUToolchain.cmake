@@ -10,7 +10,7 @@ else(NOT DEFINED DCPUTOOLCHAIN)
 endif(NOT DEFINED DCPUTOOLCHAIN)
 
 # Reset flag options
-set(DTCCFLAGS "")
+set(DTCCFLAGS " -I ../../include ") # necessary for the moment
 set(DTASMFLAGS "-i")
 
 # Define a general function that allows us to

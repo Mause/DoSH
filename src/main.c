@@ -13,21 +13,25 @@
  *
  **/
 
-#include "../../include/stdlib.h"
-#include "../../include/ext/screen.h"
-#include "../../include/string.h"
+// system includes
+#include "stdlib.h"
+#include "ext/screen.h"
+#include "string.h"
+
+// project includes
+#include "version.h"
 #include "defines.h"
 #include "doms_stdlib.h"
 #include "extern_table.h"
 
 // TODO: implement scrolling :P
-// 		will most likely either require a buffer (array?)
-//		to store the information whilst it scrolls
-// 		will probably implement a function for this :)
+// 		 will most likely either require a buffer (array?)
+//	 	 to store the information whilst it scrolls
+// 	     will probably implement a function for this :)
 
 
 // TODO: implement previous commands; rather than writing the read_in_command to NULL :P
-// REM_COMMAND will store the constant that defines how many to remember
+// 		 REM_COMMAND will store the constant that defines how many to remember
 
 
 int main() {
@@ -70,7 +74,7 @@ int main() {
 	cls(); // clear screen
 	//asm_cls(); // assembly based screen cleaner; supposed to be much faster
     // i think it is bugging out a bit though
-	eputs("DoSH version 1.0", x, y);  	// display DoSH version
+	eputs("DoSH version %s" % GITVERSION, x, y);  	// display DoSH version
 
 	x=3;
 	y=1;
