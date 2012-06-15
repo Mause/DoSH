@@ -13,8 +13,8 @@
  *
 **/
 
-#ifndef __DOSH_DEFINES_H
-#define __DOSH_DEFINES_H
+#ifndef __DOSH_DOMS_STDLIB_H
+#define __DOSH_DOMS_STDLIB_H
 
 #include "doms_stdlib.c"
 

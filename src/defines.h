@@ -31,7 +31,9 @@ struct command_return_struct {
 // only one display is supported atm
 #define MAX_DISPLAYS 1 // when set to zero, assumed unlimited :D
 #define COMMAND_LENGTH 30
-#define REM_COMMAND 5 // how many commands to remember; will be used to define the size of an array that stores the previous commands :P
+#define REM_COMMAND 3 // how many commands to remember; will be used to define the size of an array that stores the previous commands :P
+// COMMAND_LENGTH * REM_COMMAND = 90
+
 
 // define some basics
 //typedef int bool;

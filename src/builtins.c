@@ -13,7 +13,12 @@
  *
  **/
 
+#ifndef __DOSH_BUILTINS_C
+#define __DOSH_BUILTINS_C
+
 #include "defines.h"
+
+
 
 
 // will echo arguments to the command line
@@ -28,3 +33,6 @@ struct command_return_struct echo(int x, int y){
 	crs.command_status = 0;
 	return crs;
 }
+
+
+#endif

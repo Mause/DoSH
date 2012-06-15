@@ -1,8 +1,8 @@
 /**
  *
- *	File:		dosh.c
+ *	File:		main.c
  *
- *	Project:	DoSH v.10
+ *	Project:	DoSH
  *	Component:	Point insertion
  *
  *	Authors:	Dominic May;
@@ -58,23 +58,21 @@ int main() {
 	int x=0;
 	int y=0;
 
-	scrn_border_colour(0);  // set screen border to black (hopefully)
 
-
-	eputs("Loading", 0, 0);		// Display loading screen
+	eputs("Loading", 0, 0);	// Display loading screen
 	
-	//hwcount = find_hw(); // currently does not work, not sure why
-	init_screen(); 		// initialize screen to 0x8000
-	scrn_border_colour(0);
-	eputc('.', 8, 0);	// Display second point of loading screen
-	init_kb();	   		// init keyboard :)
-	eputc('.', 9, 0);	// Display third point of loading screen
+	//hwcount = find_hw(); 	// currently does not work, not sure why
+	init_screen(); 			// initialize screen to 0x8000
+	scrn_border_colour(0); 	// set screen border to black (hopefully)
+	eputc('.', 8, 0);		// Display second point of loading screen
+	init_kb();	   			// init keyboard :)
+	eputc('.', 9, 0);		// Display third point of loading screen
 
-	//atlas_cls(); // clear code stolen (sorry) from the AtlasOS O.S.
-	cls(); // clear screen
-	//asm_cls(); // assembly based screen cleaner; supposed to be much faster
+	//atlas_cls(); 			// clear code stolen (sorry) from the AtlasOS O.S.
+	cls(); 					// clear screen
+	//asm_cls(); 			// assembly based screen cleaner; supposed to be much faster
     // i think it is bugging out a bit though
-	eputs("DoSH version %s" % GITVERSION, x, y);  	// display DoSH version
+	//eputs(("DoSH version %d" % GITVERSION), x, y);  	// display DoSH version
 
 	x=3;
 	y=1;

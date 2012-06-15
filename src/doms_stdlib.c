@@ -15,8 +15,13 @@
  *
 **/
 
-#include "doms_stdlib.h"
-#include "include\ext\screen.h"
+#ifndef __DOSH_DOMS_STDLIB_C
+#define __DOSH_DOMS_STDLIB_C
+
+
+
+#include "ext\screen.h"
+#include "builtins.c"
 
 //void (*func)(char* msg, int x, int y) = &scrn_sets;
 
@@ -402,3 +407,7 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 	}
 	return hwcount;
 }
+
+#endif
+
+
