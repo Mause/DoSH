@@ -9,6 +9,7 @@ include(DCPUToolchain.cmake)
 
 # Define AtlasOS.
 add_dcpu_image(DoSH
-	dosh.c
+	src/dosh.c
+	src/builtins.c
 )
 

@@ -18,8 +18,7 @@
 #include "../include/string.h"
 #include "defines.h"
 #include "doms_stdlib.h"
-#include "builtins.c"
-
+#include "extern_table.h"
 
 // TODO: implement scrolling :P
 // 		will most likely either require a buffer (array?)
@@ -40,12 +39,14 @@ int main() {
 
 	struct command_return_struct *command_info;
 
-	char read_in_command[COMMAND_LENGTH];
-	int command_pointer = 0;
-	
-/*	char * previous_commands[REM_COMMAND];
-	int previous_command_pointer = 0;
-*/
+	char read_in_command[COMMAND_LENGTH];;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+	int command_pointer;
+
+	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
+	int previous_command_pointer;
+
+// errors on 44 are on 43
+
 	// line buffer :)
 	char * lines[16];
 
@@ -65,8 +66,8 @@ int main() {
 	eputc('.', 9, 0);	// Display third point of loading screen
 
 	//atlas_cls(); // clear code stolen (sorry) from the AtlasOS O.S.
-    cls(); // clear screen
-    //asm_cls(); // assembly based screen cleaner; supposed to be much faster
+	cls(); // clear screen
+	//asm_cls(); // assembly based screen cleaner; supposed to be much faster
     // i think it is bugging out a bit though
 	eputs("DoSH version 1.0", x, y);  	// display DoSH version
 
@@ -80,6 +81,9 @@ int main() {
 		ch=0;										// reset ch
 		ch = doms_getch();   						// get a character in the form of an int from the keyboard
 		ch_stat = if_special(ch);					// see if it a special key
+		if (y==32){
+			atlas_scroll();
+		} else {
 		while (ch!=0){								// while ch is not 0
 			if (ch_stat!=0){						// if is not a special key, print it to the terminal
 				eputc(ch, x, y);					// print the ch to the terminal
@@ -134,6 +138,7 @@ int main() {
 				}
 			}
 			ch=0;									// reset ch
+		}
 		}
 		
 	}
@@ -191,5 +196,4 @@ struct command_return_struct {
 	int command_id;
 	char * command_message;
 };
-
 */
