@@ -6,7 +6,13 @@ It is intended to be compiled under the [DCPUToolchain](http://github.com/DCPUTe
 
 HINT: to compile, compile the dosh.c file. Everything else is included into that one file
 
-TODO:
+### Build Instructions;
+You first require a copy of the DCPUToolchain; binaries can be downloaded from [here](http://DCPUToolcha.in)
+Once you have extracted the files somewhere, you must set the environment DCPUTOOLCHAIN to the location of the binaries/whereever you extracted the contents of the tarball
+
+
+
+### TODO;
 * implement scrolling :P
  		will most likely either require a buffer (array?)
 		to store the information whilst it scrolls

@@ -71,8 +71,12 @@ int main() {
 	//atlas_cls(); 			// clear code stolen (sorry) from the AtlasOS O.S.
 	cls(); 					// clear screen
 	//asm_cls(); 			// assembly based screen cleaner; supposed to be much faster
-    // i think it is bugging out a bit though
-	//eputs(("DoSH version %d" % GITVERSION), x, y);  	// display DoSH version
+    						// i think it is bugging out a bit though
+
+  //  char * version_string[0] = {};
+//    char * version_string[1] =  {GITVERSION};
+	eputs("DoSH version ", x, y);  	// display DoSH title
+	eputs(GITVERSION, x+13, y);  	// display DoSH version
 
 	x=3;
 	y=1;

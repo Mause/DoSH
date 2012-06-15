@@ -20,10 +20,10 @@ else("${git_hash}" STREQUAL "")
 endif("${git_hash}" STREQUAL "")
 
 # write a file with the VERSION define
-file(WRITE src\\version.h "#define GITVERSION ${git_hash}\n")
+file(WRITE src\\version.h "#define GITVERSION \"${git_hash}\"\n")
 
 
-# Define AtlasOS.
+# Define DoSH.
 add_dcpu_image(DoSH
 	src/builtins.c
 	src/main.c

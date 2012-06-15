@@ -18,9 +18,6 @@
 
 #include "defines.h"
 
-
-
-
 // will echo arguments to the command line
 // will hopefully be used in some shell script clone :D
 struct command_return_struct echo(int x, int y){
@@ -33,6 +30,5 @@ struct command_return_struct echo(int x, int y){
 	crs.command_status = 0;
 	return crs;
 }
-
 
 #endif
