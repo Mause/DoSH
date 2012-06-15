@@ -13,9 +13,9 @@
  *
  **/
 
-#include "../include/stdlib.h"
-#include "../include/ext/screen.h"
-#include "../include/string.h"
+#include "../../include/stdlib.h"
+#include "../../include/ext/screen.h"
+#include "../../include/string.h"
 #include "defines.h"
 #include "doms_stdlib.h"
 #include "extern_table.h"
@@ -39,11 +39,11 @@ int main() {
 
 	struct command_return_struct *command_info;
 
-	char read_in_command[COMMAND_LENGTH];;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+	char read_in_command[COMMAND_LENGTH];
 	int command_pointer;
 
-	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
-	int previous_command_pointer;
+//	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
+//	int previous_command_pointer;
 
 // errors on 44 are on 43
 
@@ -54,7 +54,8 @@ int main() {
 	int x=0;
 	int y=0;
 
-	scrn_border_colour(0);
+	scrn_border_colour(0);  // set screen border to black (hopefully)
+
 
 	eputs("Loading", 0, 0);		// Display loading screen
 	
@@ -81,8 +82,9 @@ int main() {
 		ch=0;										// reset ch
 		ch = doms_getch();   						// get a character in the form of an int from the keyboard
 		ch_stat = if_special(ch);					// see if it a special key
-		if (y==32){
-			atlas_scroll();
+		//if (y==32){
+		//	atlas_scroll();
+		if (!true){
 		} else {
 		while (ch!=0){								// while ch is not 0
 			if (ch_stat!=0){						// if is not a special key, print it to the terminal

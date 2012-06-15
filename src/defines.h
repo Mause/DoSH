@@ -15,6 +15,9 @@
 
 // Structs :D
 
+#ifndef __DOSH_DEFINES_H
+#define __DOSH_DEFINES_H
+
 struct command_return_struct {
 	int y_moved;
 	int command_status;
@@ -49,3 +52,5 @@ struct command_return_struct {
 #define ARROW_RIGHT 0x83;	// Arrow right
 #define SHIFT 0x90;	// Shift
 #define CONTROL 0x91;	// Control
+
+#endif

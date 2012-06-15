@@ -1,0 +1,186 @@
+.IMPORT _stack_caller_init
+.IMPORT _stack_caller_init_overlap
+.IMPORT _stack_callee_return
+.IMPORT _halt
+.IMPORT _halt_debug
+.ULINE 24 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src//defines.h"
+
+:_DATA
+
+.SECTION INIT
+.SECTION CODE
+.ULINE 20 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.BOUNDARY
+.EXPORT cfunc_echo
+:cfunc_echo
+	SET PC, cfunc_echo_actual
+	DAT 2
+:cfunc_echo_actual
+	SUB SP, 5
+.ULINE 21 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET I, Y
+	SUB I, 2
+	SUB I, 5
+
+
+.ULINE 22 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 22 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, 50
+
+
+	SET I, Y
+	SUB I, 2
+	SUB I, 1
+	SET [I], A
+
+
+.ULINE 23 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+:__while_lRIGMCZ8E2
+.ULINE 23 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 23 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET I, Y
+	SUB I, 2
+	SUB I, 1
+	SET A, [I]
+
+
+	SET PUSH, A
+
+.ULINE 23 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, 0
+
+	SET PUSH, A
+
+	SET B, PEEK
+	SET PEEK, 0
+	ADD SP, 1
+
+	SET A, PEEK
+	SET PEEK, 0
+	ADD SP, 1
+
+
+	SET PUSH, 0
+	IFN A, B
+		SET PEEK, 1
+	SET A, POP
+
+
+
+	IFN A, 0x1
+		SET PC, __endwhile_Px6I2IODfk
+.ULINE 23 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 23 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, Y
+	SUB A, 2
+	SUB A, 1
+
+	SET B, A
+	SET A, [B]
+
+	SUB [B], 1
+
+
+
+	SET PC, __while_lRIGMCZ8E2
+:__endwhile_Px6I2IODfk
+
+.ULINE 24 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 24 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 24 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, Y
+	SUB A, 2
+	SUB A, 5
+
+	ADD A, 0
+
+	SET PUSH, A
+.ULINE 24 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, 1
+
+
+	SET B, PEEK
+	SET PEEK, 0
+	ADD SP, 1
+	SET [B], A
+
+
+.ULINE 25 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 25 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 25 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, Y
+	SUB A, 2
+	SUB A, 5
+
+	ADD A, 2
+
+	SET PUSH, A
+.ULINE 25 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, 1
+
+
+	SET B, PEEK
+	SET PEEK, 0
+	ADD SP, 1
+	SET [B], A
+
+
+.ULINE 26 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 26 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 26 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, Y
+	SUB A, 2
+	SUB A, 5
+
+	ADD A, 3
+
+	SET PUSH, A
+.ULINE 26 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, 48
+
+
+	SET B, PEEK
+	SET PEEK, 0
+	ADD SP, 1
+	SET [B], A
+
+
+.ULINE 27 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 27 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 27 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, Y
+	SUB A, 2
+	SUB A, 5
+
+	ADD A, 1
+
+	SET PUSH, A
+.ULINE 27 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET A, 0
+
+
+	SET B, PEEK
+	SET PEEK, 0
+	ADD SP, 1
+	SET [B], A
+
+
+.ULINE 28 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+.ULINE 28 "C:/Users/Mause/Dropbox/0x10c/dcputoolchain-windows--current/DoSH/src/builtins.c"
+	SET I, Y
+	SUB I, 2
+	SUB I, 5
+	SET A, I
+
+
+	ADD SP, 5
+	SET X, 2
+	SET PC, _stack_callee_return
+
+
+	ADD SP, 5
+	SET A, 0xFFFF
+	SET X, 2
+	SET PC, _stack_callee_return
+
+

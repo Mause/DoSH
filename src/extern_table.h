@@ -15,5 +15,14 @@
 
 // this is basically the third party built-ins file
 
+#ifndef __DOSH_EXTERN_TABLE_H
+#define __DOSH_EXTERN_TABLE_H
+
+
+
 // ie, ;
 // #include "src/third-party/minecraft.c"
+
+
+
+#endif

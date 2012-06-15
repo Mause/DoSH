@@ -13,7 +13,10 @@
  *
 **/
 
+#ifndef __DOSH_DEFINES_H
+#define __DOSH_DEFINES_H
 
+#include "doms_stdlib.c"
 
 // prototypes to be defined :)
 void init_screen();
@@ -33,3 +36,5 @@ int doms_compare(char * sone, char * stwo);
 int clock_delay(int delay);
 int blink_cursor(int times, int x, int y, int delay);
 int find_hw();
+
+#endif

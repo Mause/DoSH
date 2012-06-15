@@ -15,6 +15,7 @@
  *
 **/
 
+#include "doms_stdlib.h"
 #include "include\ext\screen.h"
 
 //void (*func)(char* msg, int x, int y) = &scrn_sets;
