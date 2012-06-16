@@ -26,7 +26,7 @@ struct command_return_struct echo(int x, int y){
 	while (i!=0){i--;}
 	crs.y_moved=1;
 	crs.command_id = 1;
-	crs.command_message = 'SUCCESS';
+	crs.command_message = "SUCCESS";
 	crs.command_status = 0;
 	return crs;
 }

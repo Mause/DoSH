@@ -226,21 +226,6 @@ int atlas_scroll(){
 }
 
 
-
-
-
-/*
-void scrn_setc_green(char chr, int x)
-{
-	int mem = 0x8000 + x;
-	*mem = (chr + 0xA000);
-}
-
-
-
-
-*/
-
 void scrn_border_colour(int color){
 	__asm {
 		SET PUSH, A
@@ -312,6 +297,7 @@ int doms_compare(char * sone, char * stwo){
 }
 
 
+// this bugs out atm, no real idea why
 int clock_delay (int delay) { // delay in seconds
 	__asm{
 		SET PUSH, A

@@ -43,7 +43,7 @@ int main() {
 
 	struct command_return_struct *command_info;
 
-	char read_in_command[COMMAND_LENGTH];
+	char * read_in_command[COMMAND_LENGTH];
 	int command_pointer;
 
 //	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
@@ -95,13 +95,13 @@ int main() {
 		while (ch!=0){								// while ch is not 0
 			if (ch_stat!=0){						// if is not a special key, print it to the terminal
 				eputc(ch, x, y);					// print the ch to the terminal
-				if (strlen(read_in_command)<COMMAND_LENGTH-1){
+				if (strlen(*read_in_command)<COMMAND_LENGTH-1){
 					//append(read_in_command, ch); 	// append the ch the the current command
 					read_in_command[command_pointer] = ch;
 					command_pointer++;
 				}
 				x++;								// increment the cursor position
-			} else if (strcmp(ch_stat, 0) == 0) {	// if ch was a special key
+			} else if (ch_stat == 0) {	// if ch was a special key (strcmp(ch_stat, 0) == 0) {
 				if (strcmp(ch, BACKSPACE) == 0) {	// if the special key was a backspace  specpnt("backspace")
 					if (x > 3){						// if the cursor is not inside the prompt
 						x--;						// decrement the cursor position
@@ -113,14 +113,14 @@ int main() {
 					if (true){//(strcmp(read_in_command[1],'\0')!=0){
 						y++;							// increment the cursor-y position, standard :P
 						x=0;
-						//if (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
-						if (!true){
+						if (strcmp(*read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
+						//if (!true){
 							x=0;
 							y=0;
 							breaker = true;			// this doesn't seem to work at the moment, i need to work out why
 							break;					// i will probably just write a function to compare them myself :P
 						} else {
-							eputs(read_in_command, x, y); y++;
+							eputs(*read_in_command, x, y); y++;
 		/*					command_info = interpret_command(read_in_command, x, y);
 							y+=command_info.y_moved;
 		*/					x=3;					// move the cursor to the home position
@@ -128,8 +128,8 @@ int main() {
 								read_in_command[command_pointer] = '\0';
 								command_pointer--;
 							}
-							read_in_command[0] = '\0';
-							eputs(">> ", 0, y);					
+							*read_in_command[0] = '\0';
+							eputs(">> ", 0, y);
 						}
 					} else {
 						y++;

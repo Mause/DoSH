@@ -4,9 +4,15 @@ project(DoSH)
 # Define the location of the toolchain.
 set(DCPUTOOLCHAIN ..)
 
+# set verbosity
+set( CMAKE_VERBOSE_MAKEFILE true )
+set( CMAKE_VERBOSE true )
+set( VERBOSE true )
+
 # Include DCPU-16 Toolchain.
 include(DCPUToolchain.cmake)
 
+set(VERBOSE TRUE)
 
 # Main version information.
 set(VERSION_STAGE "alpha")
@@ -19,12 +25,13 @@ else("${git_hash}" STREQUAL "")
 	set(VERSION_GIT ${git_hash})
 endif("${git_hash}" STREQUAL "")
 
-# write a file with the VERSION define
+# write a file with the GITVERSION define
 file(WRITE src\\version.h "#define GITVERSION \"${git_hash}\"\n")
 
 
 # Define DoSH.
 add_dcpu_image(DoSH
+	stdlib.dlib16
 	src/builtins.c
 	src/main.c
 )
