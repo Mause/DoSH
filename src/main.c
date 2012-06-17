@@ -128,7 +128,7 @@ int main() {
 								read_in_command[command_pointer] = '\0';
 								command_pointer--;
 							}
-							*read_in_command[0] = '\0';
+							*read_in_command[0] = '\0'; // ensure the first charactor of the command buffer is clean
 							eputs(">> ", 0, y);
 						}
 					} else {

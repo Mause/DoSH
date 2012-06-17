@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.6)
-project(DoSH)
+project(DoSH C)
 
 # Define the location of the toolchain.
 set(DCPUTOOLCHAIN ..)
