@@ -20,7 +20,7 @@
 
 
 
-#include "ext\screen.h"
+#include "ext/screen.h"
 #include "builtins.c"
 
 //void (*func)(char* msg, int x, int y) = &scrn_sets;
