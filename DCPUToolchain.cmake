@@ -121,7 +121,7 @@ function(add_dcpu_image target)
 	add_custom_command(
 		OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${target}.dcpu16"
 		COMMAND ${DCPUTOOLCHAIN}/dtld${CMAKE_EXECUTABLE_SUFFIX}
-			ARGS ${dtldlist} -s "${CMAKE_CURRENT_BINARY_DIR}/${target}.dsym16" --symbol-extension="os" -o "${CMAKE_CURRENT_BINARY_DIR}/${target}.dcpu16" ${tasmoutputs} ${tcoutputs}
+			ARGS ${dtldlist} -s "${CMAKE_CURRENT_BINARY_DIR}/${target}.dsym16" --symbol-extension="os" -o "${CMAKE_CURRENT_BINARY_DIR}/${target}.dcpu16" "${DCPUTOOLCHAIN}/stdlib.dlib16" ${tasmoutputs} ${tcoutputs}
 		DEPENDS ${tasmoutputs} ${tcoutputs}
 		COMMENT "Linking ${target}.dcpu16 as image with DCPU-Toolchain...")
 
