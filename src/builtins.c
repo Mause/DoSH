@@ -16,6 +16,7 @@
 #ifndef __DOSH_BUILTINS_C
 #define __DOSH_BUILTINS_C
 
+#include "stdlib.h"
 #include "defines.h"
 
 // will echo arguments to the command line
