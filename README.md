@@ -12,9 +12,4 @@ Once you have extracted the files somewhere, you edit the DCPUTOOLCHAIN variable
 
 
 #### TODO;
-* implement scrolling :P
- 		will most likely either require a buffer (array?)
-		to store the information whilst it scrolls
- 		will probably implement a function for this :smile:
-* implement previous commands; rather than writing the read_in_command to NULL :P
-		REM_COMMAND will store the constant that defines how many to remember
+Refer to issues
