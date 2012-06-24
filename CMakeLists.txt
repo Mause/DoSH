@@ -5,9 +5,9 @@ project(DoSH C)
 set(DCPUTOOLCHAIN ..)
 
 # set verbosity
-set( CMAKE_VERBOSE_MAKEFILE true )
-set( CMAKE_VERBOSE true )
-set( VERBOSE true )
+#set( CMAKE_VERBOSE_MAKEFILE true )
+#set( CMAKE_VERBOSE true )
+#set( VERBOSE true )
 
 # Include DCPU-16 Toolchain.
 include(DCPUToolchain.cmake)

@@ -19,7 +19,7 @@
 #define __DOSH_DOMS_STDLIB_C
 
 
-
+//#include "doms_stdlib.h"
 #include "ext/screen.h"
 #include "builtins.c"
 
@@ -350,9 +350,12 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 	__asm{
 		SET PUSH, A
 		SET PUSH, B
+		SET PUSH, C
+		SET PUSH, X
+		SET PUSH, Y
 		SET PUSH, Z
-		SET PUSH, J
 		SET PUSH, I
+		SET PUSH, J
 		HWN J
 		SET <hwcount>, J
 		:detect_hardware
@@ -385,9 +388,12 @@ int find_hw(){ // initiates hardware, returns number of connected devices
         
         :end_find_hw
 
-		SET I, POP
 		SET J, POP
+		SET I, POP
 		SET Z, POP
+		SET Y, POP
+		SET X, POP
+		SET C, POP
 		SET B, POP
 		SET A, POP
 	}
