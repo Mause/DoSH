@@ -24,16 +24,6 @@
 #include "doms_stdlib.h"
 #include "extern_table.h"
 
-// TODO: implement scrolling :P
-// 		 will most likely either require a buffer (array?)
-//	 	 to store the information whilst it scrolls
-// 	     will probably implement a function for this :)
-
-
-// TODO: implement previous commands; rather than writing the read_in_command to NULL :P
-// 		 REM_COMMAND will store the constant that defines how many to remember
-
-
 int main() {
 	// define variables :)
 	int hwcount;
