@@ -35,6 +35,8 @@ int main() {
 
 	char read_in_command[COMMAND_LENGTH];
 	int command_pointer;
+	//char *command_fragment = *read_in_command;
+	char * command_fragment;
 
 //	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
 //	int previous_command_pointer;
@@ -101,30 +103,40 @@ int main() {
 					if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
 						y++;							// increment the cursor-y position, standard :P
 						x=0;
-						if (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
-						//if (!true){
-							x=0;
-							y=0;
-							breaker = true;			// this doesn't seem to work at the moment, i need to work out why
-							break;					// i will probably just write a function to compare them myself :P
-						} else {
-							eputs(read_in_command, x, y); y++;
-		/*					command_info = interpret_command(read_in_command, x, y);
-							y+=command_info.y_moved;
-		*/					x=3;					// move the cursor to the home position
-							/*while ((command_pointer)!=0){						// this will tidy up the command buffer ^^
-								read_in_command[command_pointer] = '\0';
-								command_pointer--;
-							}*/
-							read_in_command[0] = '\0';
-							read_in_command[0] = '\0'; // ensure the first charactor of the command buffer is clean
-							eputs(">> ", 0, y);
+						
+						command_fragment = strtok(read_in_command, " ");
+						//command_fragment = read_in_command;
+						if (read_in_command[0]!=NULL){
+							if (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
+							//if (!true){
+								x=0;
+								y=0;
+								breaker = true;
+								break;
+							} else if (strcmp(read_in_command, "echo") == 0) {
+								while (read_in_command[0]!=NULL){
+									eputs(read_in_command, x, y); y++;
+									//command_fragment = strtok(read_in_command, ' ');
+								}
+							} else {
+			/*					command_info = interpret_command(read_in_command, x, y);
+								y+=command_info.y_moved;
+			*/					x=3;					// move the cursor to the home position
+								y++;
+								clear_cmd_bffr(&read_in_command, &command_pointer);
+								//read_in_command[0] = '\0';
+								read_in_command[0] = '\0'; // ensure the first charactor of the command buffer is clean
+								eputs(">> ", 0, y);
+							//}
+							}/* else {
+								y++;
+								x=3;
+								eputs(">> ", 0, y);*/
+							}
 						}
-					} else {
-						y++;
-						x=3;
-						eputs(">> ", 0, y);
-					}
+
+
+
 				} else if (strcmp(ch, ARROW_LEFT)) {
 					if (x > 3){	x--; }				// decrement the cursor position
 				} else if (strcmp(ch, ARROW_RIGHT)) {
