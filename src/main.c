@@ -29,14 +29,13 @@ int main() {
 	int hwcount;
 	int ch; 					// contains the most recent character entered into the keyboard
 	int ch_stat;				// contains boolean indicating whether or not the current ch is special
-	int breaker = false;
+//	int breaker = false;
 
 	struct command_return_struct *command_info;
 
 	char read_in_command[COMMAND_LENGTH];
 	int command_pointer;
 	//char *command_fragment = *read_in_command;
-	char * command_fragment;
 
 //	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
 //	int previous_command_pointer;
@@ -48,6 +47,8 @@ int main() {
 	int x=0;
 	int y=0;
 
+	// returns an array, first value is exit status, second is y value, third is x value
+	int from_return[3];
 
 	eputs("Loading", 0, 0);	// Display loading screen
 	
@@ -74,82 +75,51 @@ int main() {
 
 	eputs(">> ", 0, 1);	
 
-	while (breaker!=true){ 									// primary application loop
+	while (true){ 									// primary application loop
 		ch=0;										// reset ch
 		ch = doms_getch();   						// get a character in the form of an int from the keyboard
-		ch_stat = if_special(ch);					// see if it a special key
+		ch_stat = if_special(ch);					// determine if ch is a special key
 		//if (y==32){
 		//	atlas_scroll();
 		if (!true){
+			// this is the scrolling logic will end up :P
 		} else {
-		while (ch!=0){								// while ch is not 0
-			if (ch_stat!=0){						// if is not a special key, print it to the terminal
-				eputc(ch, x, y);					// print the ch to the terminal
-				if (strlen(read_in_command)<COMMAND_LENGTH-1){
-					//append(read_in_command, ch); 	// append the ch the the current command
-					read_in_command[command_pointer] = ch;
-					command_pointer++;
-				}
-				x++;								// increment the cursor position
-			} else if (ch_stat == 0) {	// if ch was a special key
-				if (ch == BACKSPACE) {	// if the special key was a backspace
-					if (x > 3){						// if the cursor is not within the prompt
-						x--;						// decrement the cursor position
-						command_pointer--;			// decrement the command pointer
-						read_in_command[command_pointer] = '\0'; // remove the last character from the current command
-						eputc(' ', x, y);			// clear spot the screen					
+			while (ch!=0){								// while ch is not 0
+				if (ch_stat!=0){						// if is not a special key, print it to the terminal
+					eputc(ch, x, y);					// print the ch to the terminal
+					if (strlen(read_in_command)<COMMAND_LENGTH-1){
+						read_in_command[command_pointer] = ch; // append the ch the the current command
+						command_pointer++;
 					}
-				} else if (ch == RETURN) {	// if the special key was a return
-					if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
-						y++;							// increment the cursor-y position, standard :P
-						x=0;
-						
-						command_fragment = strtok(read_in_command, " ");
-						//command_fragment = read_in_command;
-						if (read_in_command[0]!=NULL){
-							if (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
-							//if (!true){
-								x=0;
-								y=0;
-								breaker = true;
-								break;
-							} else if (strcmp(read_in_command, "echo") == 0) {
-								while (read_in_command[0]!=NULL){
-									eputs(read_in_command, x, y); y++;
-									//command_fragment = strtok(read_in_command, ' ');
-								}
-							} else {
-			/*					command_info = interpret_command(read_in_command, x, y);
-								y+=command_info.y_moved;
-			*/					x=3;					// move the cursor to the home position
-								y++;
-								clear_cmd_bffr(&read_in_command, &command_pointer);
-								//read_in_command[0] = '\0';
-								read_in_command[0] = '\0'; // ensure the first charactor of the command buffer is clean
-								eputs(">> ", 0, y);
-							//}
-							}/* else {
-								y++;
-								x=3;
-								eputs(">> ", 0, y);*/
-							}
+					x++;					// increment the cursor position
+				} else if (ch_stat == 0) {	// if ch was a special key
+					if (ch == BACKSPACE) {	// if the special key was a backspace
+						if (x > 3){			// if the cursor is not within the prompt
+							x--;			// decrement the cursor position
+							command_pointer--;	// decrement the command pointer
+							read_in_command[command_pointer] = '\0'; // remove the last character from the current command
+							eputc(' ', x, y);	// clear spot the screen					
 						}
-
-
-
-				} else if (strcmp(ch, ARROW_LEFT)) {
-					if (x > 3){	x--; }				// decrement the cursor position
-				} else if (strcmp(ch, ARROW_RIGHT)) {
-					if (x > 3){ x++; }				// increment the cursor position
-				} else {
-					//eputc('?', x, y);				// print a ? char for an un-handled special key :P
-					//x++;							// increment the cursor position
+					} else if (ch == RETURN) {	// if the special key was a return
+						from_return = handle_return(read_in_command, command_pointer, *y, *x);
+						if (!from_return[0]){
+							break;
+						} else {
+							y = from_return[1];
+							x = from_return[2];
+						}
+					} else if (strcmp(ch, ARROW_LEFT)) {
+						if (x > 3){	x--; }				// decrement the cursor position
+					} else if (strcmp(ch, ARROW_RIGHT)) {
+						if (x > 3){ x++; }				// increment the cursor position
+					} else {
+						//eputc('?', x, y);				// print a ? char for an un-handled special key :P
+						//x++;							// increment the cursor position
+					}
 				}
+				ch=0;									// reset ch
 			}
-			ch=0;									// reset ch
 		}
-		}
-		
 	}
 	cls();
 	eputs("SHUT. DOWN.", 0, 0);
@@ -163,7 +133,7 @@ int main() {
 // command id that was executed :P (0 if no command was executed; ie, the command does not exist)
 // and an exit message, if any
 // struct command_return_struct * 
-void interpret_command(char * read_command, int x, int y) {
+void  interpret_command(char * read_command, int x, int y) {
 	int y_moved=1; y++;
 	struct command_return_struct crs;
 	//int num_functions = (sizeof(functions)/sizeof *functions ));

@@ -24,16 +24,15 @@
 //#include "doms_stdlib.h"
 #include "ext/screen.h"
 #include "builtins.c"
+#include "defines.h"
 
 //void (*func)(char* msg, int x, int y) = &scrn_sets;
-int clear_cmd_bffr(read_in_command, command_pointer) {
-	while (command_pointer!=0){						// this will tidy up the command buffer ^^
+void clear_cmd_bffr (char *read_in_command, int command_pointer) {
+	while (command_pointer!=0){						// this will tidy up the command buffer :D
 		read_in_command[command_pointer] = '\0';
 		command_pointer--;
 	}
 }
-
-
 
 
 void init_screen() {
@@ -410,6 +409,78 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 	}
 	return hwcount;
 }
+
+
+// returns an array, first value is exit status, second is y value, third is x value
+int *handle_return(char *read_in_command, int command_pointer, int *y, int *x){
+	int to_return[3];
+	char * command_fragment;
+	if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
+		&y++;							// increment the cursor-y position, standard :P
+		&x=0;
+		
+		command_fragment = strtok(read_in_command, " ");
+		if (read_in_command[0]!=NULL){
+			if 		  (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
+			//if (!true){
+				&x=0;
+				&y=0;
+				to_return[0] = -1;
+				to_return[1] = &y;
+				to_return[2] = &x;
+				return to_return; // return with an error :P (basically, die command program die!)
+			} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
+				while (read_in_command[0]!=NULL){
+					eputs(read_in_command, &x, &y); &y++;
+					//command_fragment = strtok(read_in_command, ' ');
+				}
+			} else {
+	/*			command_info = interpret_command(read_in_command, x, y);
+				y+=command_info.y_moved;
+	*/			&x=3;					// move the cursor to the home position
+				&y++;
+				clear_cmd_bffr(read_in_command, command_pointer);
+				/*while (command_pointer!=0){						// this will tidy up the command buffer :D
+					read_in_command[command_pointer] = '\0';
+					command_pointer--;
+				}*/
+
+				read_in_command[0] = '\0'; // ensure the first character of the command buffer is clean
+				eputs(">> ", 0, &y);
+			}
+		} else {
+			to_return[0] = -1;
+			to_return[1] = &y;
+			to_return[2] = &x;
+			return to_return; // return with an error :P (basically, die command program die!)
+		}
+	} else {
+		to_return[0] = -1;
+		to_return[1] = &y;
+		to_return[2] = &x;
+		return to_return; // return with an error :P (basically, die command program die!)
+	}
+	to_return[0] = 0;
+	to_return[1] = &y;
+	to_return[2] = &x;
+	return to_return; // return with an error :P (basically, die command program die!)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
 

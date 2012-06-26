@@ -17,8 +17,10 @@
 #define __DOSH_DOMS_STDLIB_H
 
 #include "doms_stdlib.c"
+#include "defines.h"
 
 // prototypes to be defined :)
+void clear_cmd_bffr (char *read_in_command, int command_pointer);
 void init_screen();
 void init_kb();
 int doms_getch();
