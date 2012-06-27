@@ -56,8 +56,6 @@ struct command_return_struct {
 #define CONTROL 0x91;	// Control
 
 // this will tidy up the command buffer :D
-#define clr_cmd_bffr while (command_pointer!=0){ read_in_command[command_pointer] = '\0'; command_pointer-- }
-
-
+#define clr_cmd_bffr()  while (command_pointer!=0){ read_in_command[command_pointer] = '\0'; command_pointer--; };
 
 #endif
