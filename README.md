@@ -1,5 +1,5 @@
 DoSH
-====
+=======
 
 This is an attempt at an extensible shell framework for the DCPU16 platform.
 It is intended to be compiled under the [DCPUToolchain](http://github.com/DCPUTeam/DCPUToolchain).
@@ -16,8 +16,8 @@ You now have a copy of the DoSH source, which can be easily updated from the off
 ### TODO;
 Refer to [issues](https://github.com/Mause/DoSH/issues)
 
-### Support or Contact
-Send me an email at me@mause.me, i'll help you if i can :smile:
+### Support or Contact me
+Send me an email at me@mause.me, i'll help you if i can
 
 ### Credits and thanks
 Um, thanks to the guys at @DCPUTeam
