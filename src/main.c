@@ -47,6 +47,10 @@ int main() {
 	int x=0;
 	int y=0;
 
+	// hell :P
+	int a;
+	plusplus;
+
 	// returns an array, first value is exit status, second is y value, third is x value
 	int from_return[3];
 
@@ -107,7 +111,7 @@ int main() {
 							y++;							// increment the cursor-y position, standard :P
 							x=0;
 							
-							command_fragment = strtok(read_in_command, " ");
+							command_fragment = strtok(read_in_command, ' ');
 							if (read_in_command[0]!=NULL){
 								if 		  (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
 								//if (!true){
@@ -116,25 +120,25 @@ int main() {
 									breaker = true;
 									break;
 								} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
-									while (read_in_command[0]!=NULL){
-										eputs(read_in_command, x, y); y++;
+									// while (read_in_command[0]!=NULL){
+										// eputs(read_in_command, x, y); y++;
+									eputs(command_fragment, x, y); y++;
 										//command_fragment = strtok(read_in_command, ' ');
-									}
-								} else {
+									// }
+								 } //else {
 						/*			command_info = interpret_command(read_in_command, x, y);
 									y+=command_info.y_moved;
 						*/			x=3;					// move the cursor to the home position
-									y++;
+									//y++;
 									//clear_cmd_bffr(read_in_command, command_pointer);
-									/*while (command_pointer!=0){						// this will tidy up the command buffer :D
+									while (command_pointer!=0){						// this will tidy up the command buffer :D
 										read_in_command[command_pointer] = '\0';
 										command_pointer--;
-									}*/
-									clr_cmd_bffr();
-
+									}
+									//clr_cmd_bffr();
 									read_in_command[0] = '\0'; // ensure the first character of the command buffer is clean
 									eputs(">> ", 0, y);
-								}
+								// }
 							}
 						}
 
