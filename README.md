@@ -20,4 +20,4 @@ Refer to [issues](https://github.com/Mause/DoSH/issues)
 Send me an email at me@mause.me, i'll help you if i can
 
 ### Credits and thanks
-Um, thanks to the guys at @DCPUTeam
+Um, thanks to the guys at @DCPUTeam for the creating the [toolchain](http://dcputoolcha.in) in the first place, and thanks to team at @Lysdev for supporting me in my endeavours :)
