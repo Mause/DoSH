@@ -54,4 +54,12 @@ struct command_return_struct {
 #define SHIFT 0x90;	// Shift
 #define CONTROL 0x91;	// Control
 
+
+// the defines that follow are user facing, and will be used to respond to particular situations
+#define COMMAND_NOT_FOUND "Command not found"
+
+#define HELP_RESPONSE "Uh..."
+
+
+
 #endif

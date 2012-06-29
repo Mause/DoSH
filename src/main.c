@@ -47,29 +47,23 @@ int main() {
 	int x=0;
 	int y=0;
 
-	// hell :P
-	int a;
-	plusplus;
-
 	// returns an array, first value is exit status, second is y value, third is x value
 	int from_return[3];
 
 	eputs("Loading", 0, 0);	// Display loading screen
 	
 	//hwcount = find_hw(); 	// currently does not work, not sure why
-	//init_screen(); 			// initialize screen to 0x8000
+	//init_screen(); 			// initialize screen to 0x8000 (bootstrap seems to do this anyway :P)
 	scrn_border_colour(0); 	// set screen border to black (hopefully)
 	eputc('.', 8, 0);		// Display second point of loading screen
-	init_kb();	   			// init keyboard :)
+	// init_kb();	   			// init keyboard :)
 	eputc('.', 9, 0);		// Display third point of loading screen
 
 	//atlas_cls(); 			// clear code stolen (sorry) from the AtlasOS O.S.
 	cls(); 					// clear screen
 	//asm_cls(); 			// assembly based screen cleaner; supposed to be much faster
-    						// i think it is bugging out a bit though
+    						// although, i think it is bugging out a bit though
 
-  //  char * version_string[0] = {};
-//    char * version_string[1] =  {GITVERSION};
 	eputs("DoSH version ", x, y);  	// display DoSH title
 	eputs(GITVERSION, x+13, y);  	// display DoSH version
 
@@ -111,7 +105,7 @@ int main() {
 							y++;							// increment the cursor-y position, standard :P
 							x=0;
 							
-							command_fragment = strtok(read_in_command, ' ');
+							command_fragment = strtok(read_in_command, " ");
 							if (read_in_command[0]!=NULL){
 								if 		  (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
 								//if (!true){
@@ -120,12 +114,22 @@ int main() {
 									breaker = true;
 									break;
 								} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
-									// while (read_in_command[0]!=NULL){
-										// eputs(read_in_command, x, y); y++;
-									eputs(command_fragment, x, y); y++;
-										//command_fragment = strtok(read_in_command, ' ');
-									// }
-								 } //else {
+									// eputs(read_in_command, x, y); y++;
+									while (strcmp(command_fragment,NULL)!=0) {
+										eputs(command_fragment, x, y); y++;
+										command_fragment = strtok(NULL, ' ');
+									}
+								} else if (strcmp(read_in_command, "cls") == 0 || strcmp(read_in_command, "clear") == 0) {
+									cls();
+									y=0;
+								} else if (strcmp(read_in_command, "test") == 0) {
+									eputs("BLEEP! BLOOP! TESTING!", x, y); y++;
+								} else if (strcmp(read_in_command, "help") == 0) {
+									eputs(HELP_RESPONSE, x, y); y++;
+								} else {
+									eputs(COMMAND_NOT_FOUND, x, y); y++;
+								}
+									//else {
 						/*			command_info = interpret_command(read_in_command, x, y);
 									y+=command_info.y_moved;
 						*/			x=3;					// move the cursor to the home position

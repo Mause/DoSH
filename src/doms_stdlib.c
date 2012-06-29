@@ -101,11 +101,11 @@ int if_special(int val) {
 
 // 32 columns by 12 rows
 void cls() {
-	int i;
-	//eputs("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ", 0,0);
-	for (i = 12; i != 0; i--) {
-		eputs("                                ", i, 0);
-	}
+	// int i;
+	eputs("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ", 0,0);
+	// for (i = 12; i != 0; i--) {
+	// 	eputs("                                ", i, 0);
+	// }
 }
 
 
