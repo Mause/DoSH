@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Dosh : Dom's Own SHell" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dosh</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/Mause/DoSH">View on GitHub</a>
+
+          <h1 id="project_title">Dosh</h1>
+          <h2 id="project_tagline">Dom's Own SHell</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/Mause/DoSH/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Mause/DoSH/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Welcome</h1>
+
+<p>This is an attempt at an extensible shell framework for the DCPU16 platform.
+It is intended to be compiled under the <a href="http://DCPUToolcha.in">DCPUToolchain</a>.</p>
+
+<h3>Build Instructions;</h3>
+
+<p>First of all, you require a copy of the DCPUToolchain; binaries for linux or windows can be downloaded from <a href="http://DCPUToolcha.in">the official website</a>. If you require a Mac OS X version, unless things have changed since i wrote this, you will have to compile the toolchain from scratch. Once you have extracted the files somewhere, cd to the directory where you extracted the tarball's contents in the shell of your choice, and execute the following;</p>
+
+<pre lang="shell"><code>$ mkdir DoSH
+$ cd DoSH
+$ git clone https://github.com/Mause/DoSH .
+</code></pre>
+
+<p>You now have a copy of the DoSH source, which can be easily updated from the official site. However, before you can compile, some alterations must be made to the <code>CMakeLists.txt</code> file. Because cmake cannot guess where the DCPUToolchain is located, you must edit the DCPUTOOLCHAIN variable in the <code>CMakeLists.txt</code> to point to the location of the binaries/whereever you extracted the contents of the tarball. If you followed the above instructions, you may leave it as is, as the script variable is pre-configured to point to the directory above the source code directory.</p>
+
+<h3>TODO;</h3>
+
+<p>Refer to <a href="https://github.com/Mause/DoSH/issues">issues</a></p>
+
+<h3>Support or Contact me</h3>
+
+<p>Send me an email at <a href="mailto:me@mause.me">me@mause.me</a>, i'll help you if i can</p>
+
+<h3>Credits and thanks</h3>
+
+<p>Um, thanks to the guys at <a href="https://github.com/DCPUTeam" class="user-mention">@DCPUTeam</a> for the creating the <a href="http://dcputoolcha.in">toolchain</a> in the first place, and thanks to the team at <a href="https://github.com/Lysdev" class="user-mention">@Lysdev</a> for supporting me in my endeavours :)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dosh maintained by <a href="https://github.com/Mause">Mause</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-32963993-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
