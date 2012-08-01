@@ -58,8 +58,9 @@ struct command_return_struct {
 // the defines that follow are user facing, and will be used to respond to particular situations
 #define COMMAND_NOT_FOUND "Command not found"
 
-#define HELP_RESPONSE "Uh..."
+#define HELP_RESPONSE "exit,echo,cls,test,help"
 
+#define SHUTDOWN_MESSAGE "It is now safe to turn off your computer"
 
 
 #endif

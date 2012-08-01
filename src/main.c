@@ -22,7 +22,7 @@
 #include "version.h"
 #include "defines.h"
 #include "doms_stdlib.h"
-#include "extern_table.h"
+// #include "extern_table.h"
 
 int main() {
 	// define variables :)
@@ -33,11 +33,11 @@ int main() {
 
 	struct command_return_struct *command_info;
 
-	char read_in_command[COMMAND_LENGTH];
+	char read_in_command[COMMAND_LENGTH];jdkljlk;
 	int command_pointer;
 	char *command_fragment;
 
-//	char * previous_commands[REM_COMMAND][COMMAND_LENGTH];
+	// char previous_commands[REM_COMMAND][COMMAND_LENGTH];
 //	int previous_command_pointer;
 
 	// line buffer :)
@@ -100,6 +100,8 @@ int main() {
 						}
 					} else if (ch == RETURN) {	// if the special key was a return
 						
+						// put the current command at the front of the command memory
+						rightRotatebyOne(previous_commands, REM_COMMAND);
 
 						if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
 							y++;							// increment the cursor-y position, standard :P
@@ -151,6 +153,9 @@ int main() {
 						if (x > 3){	x--; }				// decrement the cursor position
 					} else if (strcmp(ch, ARROW_RIGHT)) {
 						if (x > 3){ x++; }				// increment the cursor position
+					} else if (strcmp(ch, ARROW_UP)) {
+						// if (x > 3){ x++; }				// increment the cursor position
+
 					} else {
 						//eputc('?', x, y);				// print a ? char for an un-handled special key :P
 						//x++;							// increment the cursor position
@@ -161,7 +166,7 @@ int main() {
 		}
 	}
 	cls();
-	eputs("SHUT. DOWN.", 0, 0);
+	eputs(SHUTDOWN_MESSAGE, 0, 0);
 	abort();
 	return 0;
 }
