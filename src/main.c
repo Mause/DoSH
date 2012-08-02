@@ -33,7 +33,7 @@ int main() {
 
 	struct command_return_struct *command_info;
 
-	char read_in_command[COMMAND_LENGTH];jdkljlk;
+	char read_in_command[COMMAND_LENGTH];
 	int command_pointer;
 	char *command_fragment;
 
@@ -101,7 +101,7 @@ int main() {
 					} else if (ch == RETURN) {	// if the special key was a return
 						
 						// put the current command at the front of the command memory
-						rightRotatebyOne(previous_commands, REM_COMMAND);
+						// rightRotatebyOne(previous_commands, REM_COMMAND);
 
 						if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
 							y++;							// increment the cursor-y position, standard :P

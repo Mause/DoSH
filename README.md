@@ -11,7 +11,7 @@ $ mkdir DoSH
 $ cd DoSH
 $ git clone https://github.com/Mause/DoSH .
 ```
-You now have a copy of the DoSH source, which can be easily updated from the [GitHub repo](https://github.com/Mause/DoSH). However, before you can compile, some alterations must be made to the ```CMakeLists.txt``` file. Because cmake cannot guess where the DCPUToolchain is located, you must edit the DCPUTOOLCHAIN variable in the ```CMakeLists.txt``` file to point to the location of the binaries/whereever you extracted the contents of the tarball. If you followed the above instructions, you may leave it as is, as the script variable is pre-configured to point to the directory above the source code directory.
+You now have a copy of the DoSH source, which can be easily updated from the [GitHub repo](https://github.com/Mause/DoSH). However, before you can compile, some alterations must be made to the ```CMakeLists.txt``` file. Because cmake cannot easily guess where the DCPUToolchain is located, you must edit the DCPUTOOLCHAIN variable in the ```CMakeLists.txt``` file to point to the location of the binaries/whereever you extracted the contents of the binary tarball. If you followed the above instructions, you may leave it as is, as the cmake variable is pre-configured to point to the directory above the source code directory.
 
 Etc, etc...
 

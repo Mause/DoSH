@@ -410,15 +410,16 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 	return hwcount;
 }
 
-void rightRotatebyOne(int arr, int n)
-{
-  int i;
-  int temp;
-  temp = arr[0];
-  for (i = 0; i < n-1; i++)
-     arr[i+1] = arr[i];
-  arr[i] = temp;
-}
+// void rightRotatebyOne(int arr, int n)
+// {
+//   int i;
+//   int temp;
+//   temp = arr[0];
+//   for (i = 0; i < n-1; i++) {
+//      arr[i+1] = arr[i];
+//   }
+//   arr[i] = temp;
+// }
 
 #endif
 
