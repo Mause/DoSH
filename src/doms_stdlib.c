@@ -295,7 +295,7 @@ void doms_delay(int delay) {
 	}
 }
 
-
+/*
 int doms_compare(char * sone, char * stwo){
 	int i;
 	for (i=0;sone[i] != '\0'; i++){
@@ -304,7 +304,7 @@ int doms_compare(char * sone, char * stwo){
 		}
 	}
 	return true;
-}
+}*/
 
 
 // this bugs out atm, no real idea why

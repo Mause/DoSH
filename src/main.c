@@ -38,7 +38,7 @@ int main() {
 	char *command_fragment;
 
 	// char previous_commands[REM_COMMAND][COMMAND_LENGTH];
-//	int previous_command_pointer;
+	int previous_command_pointer;
 
 	// line buffer :)
 	char * lines[16];
@@ -117,6 +117,7 @@ int main() {
 									break;
 								} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
 									// eputs(read_in_command, x, y); y++;
+									command_fragment = strtok(read_in_command, ' ');
 									while (strcmp(command_fragment,NULL)!=0) {
 										eputs(command_fragment, x, y); y++;
 										command_fragment = strtok(NULL, ' ');
@@ -177,7 +178,8 @@ int main() {
 // command id that was executed :P (0 if no command was executed; ie, the command does not exist)
 // and an exit message, if any
 // struct command_return_struct * 
-void  interpret_command(char * read_command, int x, int y) {
+/*
+void interpret_command(char * read_command, int x, int y) {
 	int y_moved=1; y++;
 	struct command_return_struct crs;
 	//int num_functions = (sizeof(functions)/sizeof *functions ));
@@ -191,14 +193,14 @@ void  interpret_command(char * read_command, int x, int y) {
 			crs.command_message = 'NOT_FOUND';
 			crs.command_status = 1;
 		}
-	}	*/
+	}	/
 	if (strcmp(read_command, "echo") == 0) {
 		crs = echo(x,y);
 /*		crs.y_moved = 2;
 		crs.command_id = 1;
 		crs.command_message = 'SUCCESS';
 		crs.command_status = 0;
-*/	} else {
+/	} else {
 		crs.y_moved = 0;
 		crs.command_id = 0;
 		crs.command_message = 'NOT_FOUND';
@@ -206,7 +208,7 @@ void  interpret_command(char * read_command, int x, int y) {
 	}
 	return crs; // return the various 
 }
-
+*/
 
 /*
 Reference data; don't mind me!
