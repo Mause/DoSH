@@ -21,8 +21,6 @@
 
 // prototypes to be defined :)
 void clear_cmd_bffr (char *read_in_command, int command_pointer);
-void init_screen();
-void init_kb();
 int doms_getch();
 int if_special(int val);
 void cls();

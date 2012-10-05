@@ -20,37 +20,15 @@
 #ifndef __DOSH_DOMS_STDLIB_C
 #define __DOSH_DOMS_STDLIB_C
 
-
-//#include "doms_stdlib.h"
 #include "ext/screen.h"
 #include "builtins.c"
 #include "defines.h"
 
-//void (*func)(char* msg, int x, int y) = &scrn_sets;
+
 void clear_cmd_bffr (char *read_in_command, int command_pointer) {
 	while (command_pointer!=0){						// this will tidy up the command buffer :D
 		read_in_command[command_pointer] = '\0';
 		command_pointer--;
-	}
-}
-
-
-void init_screen() {
-	__asm{
-		SET A, 0
-		SET B, 0x8000
-		HWI [display_int]
-		;HWI 0
-	}
-}
-
-
-void init_kb(){
-	__asm {
-		SET PUSH, A
-		SET A, 0
-		HWI [key_int]
-		SET A, POP
 	}
 }
 
@@ -289,13 +267,14 @@ void doms_type(char* msg, int x, int y, int delay)
 
 
 // this function is unreliable, do not use it
+// if the the clock_delay function works, use that instead (it doesn't)
 void doms_delay(int delay) {
 	while (delay!=0){
 		delay--;
 	}
 }
 
-/*
+
 int doms_compare(char * sone, char * stwo){
 	int i;
 	for (i=0;sone[i] != '\0'; i++){
@@ -304,7 +283,7 @@ int doms_compare(char * sone, char * stwo){
 		}
 	}
 	return true;
-}*/
+}
 
 
 // this bugs out atm, no real idea why
@@ -422,5 +401,3 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 // }
 
 #endif
-
-

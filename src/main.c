@@ -24,6 +24,12 @@
 #include "doms_stdlib.h"
 // #include "extern_table.h"
 
+// reckon i can get it to compile under gcc?
+#ifdef printf
+ eputs = printf
+#endif
+
+
 int main() {
 	// define variables :)
 	int hwcount;
@@ -53,10 +59,8 @@ int main() {
 	eputs("Loading", 0, 0);	// Display loading screen
 	
 	//hwcount = find_hw(); 	// currently does not work, not sure why
-	//init_screen(); 			// initialize screen to 0x8000 (bootstrap seems to do this anyway :P)
 	scrn_border_colour(0); 	// set screen border to black (hopefully)
 	eputc('.', 8, 0);		// Display second point of loading screen
-	// init_kb();	   			// init keyboard :)
 	eputc('.', 9, 0);		// Display third point of loading screen
 
 	//atlas_cls(); 			// clear code stolen (sorry) from the AtlasOS O.S.
@@ -110,18 +114,17 @@ int main() {
 							command_fragment = strtok(read_in_command, " ");
 							if (read_in_command[0]!=NULL){
 								if 		  (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
-								//if (!true){
 									x=0;
 									y=0;
 									breaker = true;
 									break;
 								} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
-									// eputs(read_in_command, x, y); y++;
-									command_fragment = strtok(read_in_command, ' ');
-									while (strcmp(command_fragment,NULL)!=0) {
-										eputs(command_fragment, x, y); y++;
-										command_fragment = strtok(NULL, ' ');
-									}
+									eputs(read_in_command.substring(5,COMMAND_LENGTH), x, y); y++;
+									// command_fragment = strtok(read_in_command, ' ');
+									// while (strcmp(command_fragment,NULL)!=0) {
+									// 	eputs(command_fragment, x, y); y++;
+									// 	command_fragment = strtok(NULL, ' ');
+									// }
 								} else if (strcmp(read_in_command, "cls") == 0 || strcmp(read_in_command, "clear") == 0) {
 									cls();
 									y=0;
