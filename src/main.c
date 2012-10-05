@@ -110,7 +110,6 @@ int main() {
 						if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
 							y++;							// increment the cursor-y position, standard :P
 							x=0;
-
 							command_fragment = strtok(read_in_command, " ");
 							if (read_in_command[0]!=NULL){
 								if 		  (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
@@ -119,12 +118,13 @@ int main() {
 									breaker = true;
 									break;
 								} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
-									eputs(read_in_command.substring(5,COMMAND_LENGTH), x, y); y++;
-									// command_fragment = strtok(read_in_command, ' ');
-									// while (strcmp(command_fragment,NULL)!=0) {
-									// 	eputs(command_fragment, x, y); y++;
-									// 	command_fragment = strtok(NULL, ' ');
-									// }
+									// TODO: Fix this command
+									// eputs(read_in_command.substring(5,COMMAND_LENGTH), x, y); y++;
+									command_fragment = strtok(read_in_command, ' ');
+									while (strcmp(command_fragment,NULL)!=0) {
+										eputs(command_fragment, x, y); y++;
+										command_fragment = strtok(NULL, ' ');
+									}
 								} else if (strcmp(read_in_command, "cls") == 0 || strcmp(read_in_command, "clear") == 0) {
 									cls();
 									y=0;
