@@ -6,7 +6,7 @@
  *	Component:	Point insertion
  *
  *	Authors:	Dominic May;
- *				Lord_DeathMatch;			
+ *				Lord_DeathMatch;
  *				Mause
  *
  *	Description:	DoSH = Doms Own SHell
@@ -57,7 +57,7 @@ int main() {
 	int from_return[3];
 
 	eputs("Loading", 0, 0);	// Display loading screen
-	
+
 	//hwcount = find_hw(); 	// currently does not work, not sure why
 	scrn_border_colour(0); 	// set screen border to black (hopefully)
 	eputc('.', 8, 0);		// Display second point of loading screen
@@ -75,7 +75,7 @@ int main() {
 	y=1;
 	//clock_delay(1, clock_int);	// clock delay, does not work
 
-	eputs(">> ", 0, 1);	
+	eputs(">> ", 0, 1);
 
 	while (!breaker){ 									// primary application loop
 		ch=0;										// reset ch
@@ -103,14 +103,14 @@ int main() {
 							eputc(' ', x, y);	// clear spot the screen					
 						}
 					} else if (ch == RETURN) {	// if the special key was a return
-						
+
 						// put the current command at the front of the command memory
 						// rightRotatebyOne(previous_commands, REM_COMMAND);
 
 						if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
 							y++;							// increment the cursor-y position, standard :P
 							x=0;
-							
+
 							command_fragment = strtok(read_in_command, " ");
 							if (read_in_command[0]!=NULL){
 								if 		  (strcmp(read_in_command, "exit") == 0){ // this is technically a built-in, but it is easy to implement here :P
