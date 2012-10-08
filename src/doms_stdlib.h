@@ -36,6 +36,6 @@ int doms_compare(char * sone, char * stwo);
 int clock_delay(int delay);
 int blink_cursor(int times, int x, int y, int delay);
 int find_hw();
-void rightRotatebyOne(int arr, int n);
-
+// void rightRotatebyOne(int arr, int n);
+// char *substring(char *src, size_t start, size_t size);
 #endif

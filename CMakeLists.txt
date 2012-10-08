@@ -12,7 +12,7 @@ set(DCPUTOOLCHAIN ..)
 # Include DCPU-16 Toolchain.
 include(DCPUToolchain.cmake)
 
-set(VERBOSE TRUE)
+set(VERBOSE 1)
 
 # Main version information.
 set(VERSION_STAGE "alpha")

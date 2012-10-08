@@ -24,26 +24,22 @@
 #include "doms_stdlib.h"
 // #include "extern_table.h"
 
-// reckon i can get it to compile under gcc?
-#ifdef printf
- eputs = printf
-#endif
 
 
 int main() {
 	// define variables :)
-	int hwcount;
+	// int hwcount;
 	int ch; 					// contains the most recent character entered into the keyboard
 	int ch_stat;				// contains boolean indicating whether or not the current ch is special
 	int breaker = false;
 
-	struct command_return_struct *command_info;
+	// struct command_return_struct *command_info;
 
 	char read_in_command[COMMAND_LENGTH];
 	int command_pointer;
 	char *command_fragment;
 
-	// char previous_commands[REM_COMMAND][COMMAND_LENGTH];
+	// char previous_commands[REM_COMMAND][COMMAND_LENGTH] = 0;
 	int previous_command_pointer;
 
 	// line buffer :)
@@ -54,14 +50,14 @@ int main() {
 	int y=0;
 
 	// returns an array, first value is exit status, second is y value, third is x value
-	int from_return[3];
+	// int from_return[3];
 
 	eputs("Loading", 0, 0);	// Display loading screen
 
+	eputc('.', 8, 0);		// Display second point of loading screen
 	//hwcount = find_hw(); 	// currently does not work, not sure why
 	scrn_border_colour(0); 	// set screen border to black (hopefully)
-	eputc('.', 8, 0);		// Display second point of loading screen
-	eputc('.', 9, 0);		// Display third point of loading screen
+	// eputc('.', 9, 0);	// Display third point of loading screen
 
 	//atlas_cls(); 			// clear code stolen (sorry) from the AtlasOS O.S.
 	cls(); 					// clear screen
@@ -69,7 +65,7 @@ int main() {
     						// although, i think it is bugging out a bit though
 
 	eputs("DoSH version ", x, y);  	// display DoSH title
-	eputs(GITVERSION, x+13, y);  	// display DoSH version
+	eputs(GITVERSION, x+13, y);  	// display DoSH git revision
 
 	x=3;
 	y=1;
@@ -77,7 +73,7 @@ int main() {
 
 	eputs(">> ", 0, 1);
 
-	while (!breaker){ 									// primary application loop
+	while (!breaker){ 								// primary application loop
 		ch=0;										// reset ch
 		ch = doms_getch();   						// get a character in the form of an int from the keyboard
 		ch_stat = if_special(ch);					// determine if ch is a special key
@@ -86,15 +82,15 @@ int main() {
 		if (!true){
 			// this is the scrolling logic will end up :P
 		} else {
-			while (ch!=0){								// while ch is not 0
-				if (ch_stat!=0){						// if is not a special key, print it to the terminal
+			while (ch!=0){								// while ch is not null/empty
+				if (ch_stat == 0){						// if is not a special key, print it to the terminal
 					eputc(ch, x, y);					// print the ch to the terminal
-					if (strlen(read_in_command)<COMMAND_LENGTH-1){
+					if (strlen(read_in_command) < COMMAND_LENGTH - 1){
 						read_in_command[command_pointer] = ch; // append the ch the the current command
 						command_pointer++;
 					}
 					x++;					// increment the cursor position
-				} else if (ch_stat == 0) {	// if ch was a special key
+				} else if (ch_stat == 1) {	// if ch was a special key
 					if (ch == BACKSPACE) {	// if the special key was a backspace
 						if (x > 3){			// if the cursor is not within the prompt
 							x--;			// decrement the cursor position
@@ -104,10 +100,9 @@ int main() {
 						}
 					} else if (ch == RETURN) {	// if the special key was a return
 
-						// put the current command at the front of the command memory
-						// rightRotatebyOne(previous_commands, REM_COMMAND);
-
-						if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[1],'\0')!=0)
+						if (true){//(read_in_command[0] != '\0'){ //{//(strcmp(read_in_command[0],'\0')!=0)
+							// put the current command at the front of the command memory
+							// rightRotatebyOne(previous_commands, REM_COMMAND);
 							y++;							// increment the cursor-y position, standard :P
 							x=0;
 							command_fragment = strtok(read_in_command, " ");
@@ -119,14 +114,17 @@ int main() {
 									break;
 								} else if (strcmp(read_in_command, "echo") == 0) { // another thing that is technically a built-in, but it is here for testing purposes :P
 									// TODO: Fix this command
-									// eputs(read_in_command.substring(5,COMMAND_LENGTH), x, y); y++;
-									command_fragment = strtok(read_in_command, ' ');
-									while (strcmp(command_fragment,NULL)!=0) {
-										eputs(command_fragment, x, y); y++;
-										command_fragment = strtok(NULL, ' ');
-									}
+									// next line is reference
+									// char *substring(size_t start, size_t stop, const char *src, char *dst, size_t size)
+									// eputs(substring(read_in_command, 5, COMMAND_LENGTH), x, y); y++;
+									// command_fragment = strtok(read_in_command, ' ');
+									// while (strcmp(command_fragment,NULL)!=0) {
+									// 	eputs(command_fragment, x, y); y++;
+									// 	command_fragment = strtok(NULL, ' ');
+									// }
 								} else if (strcmp(read_in_command, "cls") == 0 || strcmp(read_in_command, "clear") == 0) {
-									cls();
+									// cls();
+									anon_cls();
 									y=0;
 								} else if (strcmp(read_in_command, "test") == 0) {
 									eputs("BLEEP! BLOOP! TESTING!", x, y); y++;
@@ -136,18 +134,18 @@ int main() {
 									eputs(COMMAND_NOT_FOUND, x, y); y++;
 								}
 									//else {
-						/*			command_info = interpret_command(read_in_command, x, y);
-									y+=command_info.y_moved;
-						*/			x=3;					// move the cursor to the home position
-									//y++;
-									//clear_cmd_bffr(read_in_command, command_pointer);
-									while (command_pointer!=0){						// this will tidy up the command buffer :D
-										read_in_command[command_pointer] = '\0';
-										command_pointer--;
-									}
-									//clr_cmd_bffr();
-									read_in_command[0] = '\0'; // ensure the first character of the command buffer is clean
-									eputs(">> ", 0, y);
+					/*			command_info = interpret_command(read_in_command, x, y);
+								y+=command_info.y_moved;
+					*/			x=3;					// move the cursor to the home position
+								//y++;
+								//clear_cmd_bffr(read_in_command, command_pointer);
+								while (command_pointer!=0){						// this will tidy up the command buffer :D
+									read_in_command[command_pointer] = '\0';
+									command_pointer--;
+								}
+								//clr_cmd_bffr();
+								read_in_command[0] = '\0'; // ensure the first character of the command buffer is clean
+								eputs(">> ", 0, y);
 								// }
 							}
 						}
@@ -158,7 +156,10 @@ int main() {
 					} else if (strcmp(ch, ARROW_RIGHT)) {
 						if (x > 3){ x++; }				// increment the cursor position
 					} else if (strcmp(ch, ARROW_UP)) {
+						// once i have previous command storage working,
+						// this is where the recalling logic will end up
 						// if (x > 3){ x++; }				// increment the cursor position
+					// } else if (strcmp(ch, ARROW_DOWN)) {
 
 					} else {
 						//eputc('?', x, y);				// print a ? char for an un-handled special key :P

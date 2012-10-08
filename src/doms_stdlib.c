@@ -65,15 +65,15 @@ int if_special(int val) {
 		0x90,	// Shift
 		0x91	// Control
 	};
-   int i;
-   for (i=0; i<10; i++)
-   {
-	 if (spec_keys[i] == val)
-	 {
-		return 0;  /* it was found */
-	 }
-   }
-   return -1;  /* if it was not found */
+	int i;
+	for (i=0; i<10; i++)
+	{
+		if (spec_keys[i] == val)
+		{
+			return 1;  /* it was found */
+		}
+	}
+	return 0;  /* if it was not found */
 }
 
 
@@ -101,6 +101,19 @@ void asm_cls(){
 	}
 }
 
+
+void anon_cls(){
+	__asm{
+		set b, [0x8000]
+		set i, 0
+		:clear_screen_loop
+			set [b], 0x0000
+			add b, 1
+		    add i, 1
+		    ifl i, 0x180
+		    	set pc, clear_screen_loop
+	}
+}
 
 void atlas_cls(){
 	__asm{
@@ -226,7 +239,7 @@ void scrn_border_colour(int color){
 	}
 }
 
-
+// is this supposed to turn the cursor blink off?
 int blink(int on_off){return 0;}
 
 
@@ -234,7 +247,7 @@ int loading_wheel(int x, int y, int times){
 	// Displays 'spinning' wheel
 	char segs[4] = {'|','/','-','\\'};
 	int seg_point = 0;
-	while (times!=0){
+	for (times; times!=0; times--){
 		for (seg_point=0; seg_point!=3; seg_point++){
 			eputc(segs[seg_point], x, y);
 			// at the moment, does not use a delay
@@ -242,7 +255,6 @@ int loading_wheel(int x, int y, int times){
 			// ie,
 			// clock_delay(1);
 		}
-		times--;
 	}
 	eputc(' ', x, y);
 	return 0;
@@ -399,5 +411,13 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 //   }
 //   arr[i] = temp;
 // }
+
+// char *substring(char *src, size_t start, size_t size)
+// {
+// 	char * dst;
+// 	*dst = src + start;
+// 	return dst;
+// }
+
 
 #endif
