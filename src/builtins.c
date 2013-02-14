@@ -6,7 +6,7 @@
  *	Component:	Shell built-ins
  *
  *	Authors:	Dominic May;
- *				Lord_DeathMatch;			
+ *				Lord_DeathMatch;
  *				Mause
  *
  *	Description:	contains built-in shell commands
@@ -21,15 +21,15 @@
 
 // will echo arguments to the command line
 // will hopefully be used in some shell script clone :D
-struct command_return_struct echo(int x, int y){
-	struct command_return_struct crs;
-	int i = 50;
-	while (i!=0){i--;}
-	crs.y_moved=1;
-	crs.command_id = 1;
-	crs.command_message = "SUCCESS";
-	crs.command_status = 0;
-	return crs;
-}
+// struct command_return_struct echo(int x, int y){
+// 	struct command_return_struct crs;
+// 	int i = 50;
+// 	while (i!=0){i--;}
+// 	crs.y_moved=1;
+// 	crs.command_id = 1;
+// 	crs.command_message = "SUCCESS";
+// 	crs.command_status = 0;
+// 	return crs;
+// }
 
 #endif

@@ -25,14 +25,6 @@
 #include "defines.h"
 
 
-void clear_cmd_bffr (char *read_in_command, int command_pointer) {
-	while (command_pointer!=0){						// this will tidy up the command buffer :D
-		read_in_command[command_pointer] = '\0';
-		command_pointer--;
-	}
-}
-
-
 int doms_getch(){
 	int ch;
 	__asm {
@@ -40,7 +32,7 @@ int doms_getch(){
 		SET PUSH, B
 		SET PUSH, C
 		SET A, 1
-		HWI 1
+		HWI [key_int]
 		SET <ch>, C
 		SET C, POP
 		SET B, POP
@@ -79,11 +71,7 @@ int if_special(int val) {
 
 // 32 columns by 12 rows
 void cls() {
-	// int i;
 	eputs("                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ", 0,0);
-	// for (i = 12; i != 0; i--) {
-	// 	eputs("                                ", i, 0);
-	// }
 }
 
 
@@ -164,20 +152,20 @@ void atlas_cls(){
 }
 
 
-int doms_scroll(char * lines) {
-	int i;
-	int line= 0x8000;
-	int x;
-	int mem = 0x8000;
-	for(i=0; i!=32-1; i++){
-		
-		for (x=0; x!=32; x++){
-			lines[i] = *mem;
-		}
-		//mem
-	}
-	return 0;
-}
+// int doms_scroll(char * lines) {
+// 	int i;
+// 	// int line = 0x8000;
+// 	int x;
+// 	int mem = 0x8000;
+// 	for(i=0; i!=32-1; i++){
+
+// 		for (x=0; x!=32; x++){
+// 			lines[i] = *mem;
+// 		}
+// 		//mem
+// 	}
+// 	return 0;
+// }
 
 
 int atlas_scroll(){
@@ -193,7 +181,7 @@ int atlas_scroll(){
 		  SET X, [video_mem] ; Set X to the video memory
 		  SET Y, [video_mem]
 		  ADD Y, 0x0020 ; Set Y to the second line in the video memory
-		  
+
 		  SET A, [video_width]
 		  MUL A, [video_height]
 		  ADD A, [video_mem]
@@ -316,10 +304,10 @@ int clock_delay (int delay) { // delay in seconds
 		:clockloopB				;// Part 2 of the loop, which waits for ten seconds then does some code, then goes back to clockloopA. Runs directly after part 1.
 			SET A, 1			;// sets a to one so we can get the amount of time since we last sent a 0 interrupt (an interrupt sent to the clock while a=0)
 			HWI [clock_int]
-			IFG C, <delay>			;//if C is 10 (or higher, because we might miss the exact tick where C = 10 and be stuck in an infinite loop.) we do :somecode
+			IFG C, <delay>			;//if C is 10 (or higher, because we might miss the exact tick where C = 10 and be stuck in an infinite loop)
 				set pc, enddelay
 			set pc, clockloopB	;//otherwise we loop
-	
+
 		:enddelay
 		SET A, 0
 		SET B, 0
@@ -328,7 +316,7 @@ int clock_delay (int delay) { // delay in seconds
 		;//set pc, clockloopA		;We set it to A because it resets the timer, and C only reads from the clocks last 0 interrupt.
 		SET C, POP
 		SET B, POP
-		SET A, POP		
+		SET A, POP
 	}
 	return 0;
 }
@@ -370,10 +358,13 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 			IFE 0x12d0, B
 				IFE 0xb402, A
 					SET [clock_int], I
+			IFE 0x5678, B
+				IFE 0x1234, A
+					SET [floppy_int], I
 			ADD I, 1
 			IFE I, J
 				SET pc, end_find_hw
-			SET pc, detect_hardware    
+			SET pc, detect_hardware
 
 
 		;// this next section is an attempt at
@@ -382,11 +373,12 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 		:key_int dat 0x0
 		:display_int
 		:clock_int dat 0x0
+		:floppy_int dat 0x0
 		:fore_color dat 0xf ;0x0 .. 0xf
 		:back_color dat 0x1 ;0x0 .. 0xf
-		:carot_char dat 0x5f      
+		:carot_char dat 0x5f
 		:variables_end
-		
+
 		:end_find_hw
 
 		SET J, POP
@@ -400,6 +392,7 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 	}
 	return hwcount;
 }
+
 
 // void rightRotatebyOne(int arr, int n)
 // {
