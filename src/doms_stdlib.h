@@ -17,11 +17,12 @@
 #define __DOSH_DOMS_STDLIB_H
 
 #include "defines.h"
+// #include "doms_stdlib.c"
 
 // prototypes to be defined :)
-// int doms_getch();
-// int if_special(int val);
-// void cls();
+int doms_getch();
+int if_special(int val);
+void cls();
 // void asm_cls();
 // void anon_cls();
 // void atlas_cls();
@@ -32,9 +33,9 @@
 // void doms_type(char *msg, int x, int y, int delay);
 void doms_delay(int delay);
 // int doms_compare(char * sone, char * stwo);
-// int clock_delay(int delay);
+int clock_delay(int delay);
 // int blink_cursor(int times, int x, int y, int delay);
-// int find_hw();
+int find_hw();
 // void rightRotatebyOne(int arr, int n);
 // char *substring(char *src, size_t start, size_t size);
 #endif

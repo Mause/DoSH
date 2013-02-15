@@ -32,7 +32,7 @@ int doms_getch(){
 		SET PUSH, B
 		SET PUSH, C
 		SET A, 1
-		HWI [key_int]
+		HWI [key_slot]
 		SET <ch>, C
 		SET C, POP
 		SET B, POP
@@ -221,7 +221,7 @@ void scrn_border_colour(int color){
 		SET PUSH, B
 		SET A, 3
 		SET B, <color>
-		HWI [display_int]
+		HWI [display_slot]
 		SET B, POP
 		SET A, POP
 	}
@@ -298,12 +298,12 @@ int clock_delay (int delay) { // delay in seconds
 		:clockloopA				;// Part 1 of the loop, sets and resets the clock ticking.
 			SET A, 0			;// Sets a to 0, which means when we interrupt our clock we set it to start ticking
 			SET B, 1			;// Replace 60 with any integer to define how often the clock will tick. If you set it to 1, the clock will tick at a rate of 60/1 or 60 ticks per second. If it is 2 it will tick at 60/2, or 30 ticks per second, which is less presice. If it is 3 it is 60/3 or 20 TPS(Ticks per second) etc. Setting it to 60 means 1 tick = 1 second.
-			HWI [clock_int]		;// Sends an interrupt to our clock. Replace (clock slot) with the actual clock slot. (But dont hard code it for portability)
+			HWI [clock_slot]		;// Sends an interrupt to our clock. Replace (clock slot) with the actual clock slot. (But dont hard code it for portability)
 								;// our clock should now be ticking at a rate of 1 TPS(Ticks per second)
 
 		:clockloopB				;// Part 2 of the loop, which waits for ten seconds then does some code, then goes back to clockloopA. Runs directly after part 1.
 			SET A, 1			;// sets a to one so we can get the amount of time since we last sent a 0 interrupt (an interrupt sent to the clock while a=0)
-			HWI [clock_int]
+			HWI [clock_slot]
 			IFG C, <delay>			;//if C is 10 (or higher, because we might miss the exact tick where C = 10 and be stuck in an infinite loop)
 				set pc, enddelay
 			set pc, clockloopB	;//otherwise we loop
@@ -311,7 +311,7 @@ int clock_delay (int delay) { // delay in seconds
 		:enddelay
 		SET A, 0
 		SET B, 0
-		HWI [clock_int]
+		HWI [clock_slot]
 		;//set z, 777				;do whatever you want here instead of setting Z to 777
 		;//set pc, clockloopA		;We set it to A because it resets the timer, and C only reads from the clocks last 0 interrupt.
 		SET C, POP
@@ -351,16 +351,16 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 			HWQ I
 			IFE 0x7349, B
 				IFE 0xf615, A
-					SET [display_int], I
+					SET [display_slot], I
 			IFE 0x30cf, B
 				IFE 0x7406, A
-					SET [key_int], I
+					SET [key_slot], I
 			IFE 0x12d0, B
 				IFE 0xb402, A
-					SET [clock_int], I
+					SET [clock_slot], I
 			IFE 0x5678, B
 				IFE 0x1234, A
-					SET [floppy_int], I
+					SET [floppy_slot], I
 			ADD I, 1
 			IFE I, J
 				SET pc, end_find_hw
@@ -370,13 +370,18 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 		;// this next section is an attempt at
 		;// mid-code variables :D
 		set pc, variables_end
-		:key_int dat 0x0
-		:display_int
-		:clock_int dat 0x0
-		:floppy_int dat 0x0
+		:key_slot dat 0x0
+		:display_slot
+		:clock_slot dat 0x0
+		:floppy_slot dat 0x0
 		:fore_color dat 0xf ;0x0 .. 0xf
 		:back_color dat 0x1 ;0x0 .. 0xf
 		:carot_char dat 0x5f
+		.EXPORT clock_slot
+		.EXPORT floppy_slot
+		.EXPORT fore_color
+		.EXPORT back_color
+		.EXPORT carot_char
 		:variables_end
 
 		:end_find_hw

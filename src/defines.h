@@ -28,20 +28,27 @@
 // Constants :)
 
 // only one display is supported atm
-#define MAX_DISPLAYS   1    // when set to zero, assumed unlimited :D (currently unused)
+
+// when set to zero, assumed unlimited :D (currently unused)
+#define MAX_DISPLAYS 1
+
 #define COMMAND_LENGTH 30
-#define REM_COMMAND    30   // how many commands to remember; will be used to define the size of an array that stores the previous commands :P
-// COMMAND_LENGTH * REM_COMMAND = 90
+
+#define REM_COMMAND 30
+// how many commands to remember; will be used to define the size of an array that stores the previous commands :P = 90
+#define MEMORY_USER_BY_REMEMBERED_COMMANDS = COMMAND_LENGTH * REM_COMMAND
 
 
 // define some basics
 
-typedef int bool;
+// typedef int bool;
 
 #define true 1
+
 #define false 0
 
 #define SUCCESS 0
+
 #define FAILURE 1
 
 // various keyboard codes ;)
@@ -69,7 +76,9 @@ typedef int bool;
 
 // the defines that follow are user facing, and will be used to respond to particular situations
 #define COMMAND_NOT_FOUND "Command not found"
+
 #define HELP_RESPONSE "exit,echo,cls,test,help"
+
 #define SHUTDOWN_MESSAGE "It is now safe to turn off your computer"
 
 #endif

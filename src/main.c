@@ -24,8 +24,8 @@
 #include "doms_stdlib.h"
 // #include "extern_table.h"
 
-// device includes
-// #include "libfloppy.c"
+// device libraries
+#include "libfloppy.h"
 
 
 int main() {
