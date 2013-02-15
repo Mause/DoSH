@@ -16,7 +16,6 @@
 #ifndef __DOSH_DOMS_STDLIB_H
 #define __DOSH_DOMS_STDLIB_H
 
-#include "doms_stdlib.c"
 #include "defines.h"
 
 // prototypes to be defined :)
@@ -31,7 +30,7 @@
 // int blink(int on_off);
 // int loading_wheel(int x, int y, int times);
 // void doms_type(char *msg, int x, int y, int delay);
-// void doms_delay(int delay);
+void doms_delay(int delay);
 // int doms_compare(char * sone, char * stwo);
 // int clock_delay(int delay);
 // int blink_cursor(int times, int x, int y, int delay);
