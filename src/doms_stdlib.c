@@ -20,9 +20,9 @@
 #ifndef __DOSH_DOMS_STDLIB_C
 #define __DOSH_DOMS_STDLIB_C
 
+#include "doms_stdlib.h"
 #include "ext/screen.h"
-#include "builtins.c"
-#include "defines.h"
+#include "string.h"
 
 
 int doms_getch(){
