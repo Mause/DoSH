@@ -20,6 +20,7 @@
 #ifndef __DOSH_DOMS_STDLIB_C
 #define __DOSH_DOMS_STDLIB_C
 
+#include "stdlib.h"
 #include "doms_stdlib.h"
 #include "ext/screen.h"
 #include "string.h"
@@ -425,24 +426,19 @@ void rotate_by_one(char * arr[], int n){
    }
 }
 
+// int indexOf(char * arr[], char * string){
+// 	unsigned int i;
+// 	unsigned int numElements = sizeof(arr) / sizeof(arr[0]);
 
-// void rotate_by_one(char * arr[], int n)
-// {
-//   int i;
-//   char* last = arr[n-1];
-//   for (i = 0; i < n-1; i++) {
-//      // printf("%d; %s\n", i, arr[i]);
-//      arr[i+1] = arr[i];
-//   }
-//   arr[0] = last;
-// }
+// 	for(i=0; i<numElements; ++i) {
+// 	    if (strcmp(arr[i], string) == 0) {
+// 	        return i;
+// 	    }
+// 	}
 
-
-// char *substring(char *src, size_t start, size_t size)
-// {
-// 	char * dst;
-// 	*dst = src + start;
-// 	return dst;
+// 	if (i >= numElements) {
+// 	    return -1;
+// 	}
 // }
 
 

@@ -21,8 +21,8 @@
 typedef struct {
     char * current_username;
     int something;
-    char * ENV_KEYS;
-    char * ENV_VALUES;
+    char * ENV_KEYS[10];
+    char * ENV_VALUES[10];
 } state;
 
 

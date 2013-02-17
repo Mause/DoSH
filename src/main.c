@@ -28,7 +28,7 @@
 #include "version.h"
 #include "defines.h"
 #include "doms_stdlib.h"
-#include "builtins.c"
+#include "builtins.h"
 // #include "extern_table.h"
 
 // device libraries
@@ -127,7 +127,7 @@ int main() {
 
 							return_struct = execute_command(
 								read_in_command, x, y, current_state);
-							y = return_struct->y_value;
+							y = return_struct.y_value;
 
 							x = 3;											// move the cursor to the home position
 							while (command_pointer != 0){					// this loop will tidy up the command buffer :D
@@ -157,7 +157,7 @@ int main() {
 			}
 		}
 	}
-	// cls();
+	cls();
 	eputs(SHUTDOWN_MESSAGE, 0, 0);
 	abort();
 	return 0;

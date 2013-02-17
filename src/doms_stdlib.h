@@ -40,4 +40,5 @@ int clock_delay(int delay);
 int find_hw();
 void rotate_by_one(int arr, int n);
 // char *substring(char *src, size_t start, size_t size);
+int indexOf(char * arr[], char * string);
 #endif
