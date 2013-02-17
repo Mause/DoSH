@@ -24,6 +24,26 @@
 #include "ext/screen.h"
 #include "string.h"
 
+// return a C string with maximal length max_len
+// adds a '\0' to the end of the string
+// thus needs a buffer of size max_len+1 at least.
+// also, prints from x,y onwards
+void fgets(char* buf, int max_len, int x, int  y)
+{
+	int i; char c;
+	for (i=0; i < max_len; i++) {
+		c = doms_getch();
+		if (c != '\n') {
+			buf[i++] = c;
+			eputc(c, x, y);
+			x++;
+		} else {
+			break;
+		}
+	}
+	buf[i] = '\0';
+}
+
 
 int doms_getch(){
 	int ch;
@@ -62,10 +82,10 @@ int if_special(int val) {
 	{
 		if (spec_keys[i] == val)
 		{
-			return 1;  /* it was found */
+			return true;  /* it was found */
 		}
 	}
-	return 0;  /* if it was not found */
+	return false;  /* if it was not found */
 }
 
 
@@ -275,15 +295,15 @@ void doms_delay(int delay) {
 }
 
 
-int doms_compare(char * sone, char * stwo){
-	int i;
-	for (i=0;sone[i] != '\0'; i++){
-		if (strcmp(sone[i], stwo[i]) == 1){
-			return false;
-		}
-	}
-	return true;
-}
+// int doms_compare(char * sone, char * stwo){
+// 	int i;
+// 	for (i=0;sone[i] != '\0'; i++){
+// 		if (strcmp(sone[i], stwo[i]) == 1){
+// 			return false;
+// 		}
+// 	}
+// 	return true;
+// }
 
 
 // this bugs out atm, no real idea why
@@ -398,17 +418,25 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 	return hwcount;
 }
 
+void rotate_by_one(char * arr[], int n){
+   int i;
+   for (i = n - 1;i > 0;i--){
+      arr[i] = arr[i - 1];
+   }
+}
 
-// void rightRotatebyOne(int arr, int n)
+
+// void rotate_by_one(char * arr[], int n)
 // {
 //   int i;
-//   int temp;
-//   temp = arr[0];
+//   char* last = arr[n-1];
 //   for (i = 0; i < n-1; i++) {
+//      // printf("%d; %s\n", i, arr[i]);
 //      arr[i+1] = arr[i];
 //   }
-//   arr[i] = temp;
+//   arr[0] = last;
 // }
+
 
 // char *substring(char *src, size_t start, size_t size)
 // {

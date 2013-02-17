@@ -18,12 +18,21 @@
 #ifndef __DOSH_DEFINES_H
 #define __DOSH_DEFINES_H
 
-// struct command_return_struct {
-// 	int y_moved;
-// 	int command_status;
-// 	int command_id;
-// 	char * command_message;
-// };
+typedef struct {
+    char * current_username;
+    int something;
+    char * ENV_KEYS;
+    char * ENV_VALUES;
+} state;
+
+
+typedef struct {
+    int y_value;
+    int command_status;
+    int command_id;
+    char * command_message;
+    int should_shutdown;
+} command;
 
 // Constants :)
 
@@ -80,5 +89,9 @@
 #define HELP_RESPONSE "exit,echo,cls,test,help"
 
 #define SHUTDOWN_MESSAGE "It is now safe to turn off your computer"
+
+
+#define INPUT_IS_EQUAL(command) (strncmp(read_in_command, command, COMMAND_LENGTH) == 0)
+
 
 #endif
