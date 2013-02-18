@@ -20,6 +20,7 @@
 #include "string.h"
 #include "stdlib.h"
 #include "ext/screen.h"
+#include "stdio.h"
 
 // DoSH includes
 #include "builtins.h"
@@ -28,7 +29,7 @@
 #include "doms_stdlib.h"
 
 int indexOf(char * arr[], char * string, int numElements){
-    unsigned int i;
+    int i;
 
     for(i=0; i<numElements; ++i) {
         if (strcmp(arr[i], string) == 0) {
@@ -41,38 +42,6 @@ int indexOf(char * arr[], char * string, int numElements){
     }
 }
 
-
-
-command execute_command(char * read_in_command, int x, int y, state current_state){
-    // maybe should be void?
-    command return_struct;
-    int function_index;
-
-    char *COMMANDS_KEYS[8] = {
-        "shutdown",
-        "test",
-        "echo",
-        "wait",
-        "whoami",
-        "help",
-        "cls",
-        "flp"
-    };
-
-    unsigned int numElements = sizeof(COMMANDS_KEYS) / sizeof(COMMANDS_KEYS[0]);
-
-    command (*COMMANDS_FUNCTIONS[8]) (char * read_in_command, int x, int y, state current_state) = {
-        command_shutdown,
-        command_test,
-        command_echo,
-        command_wait,
-        command_whoami,
-        command_help,
-        command_cls,
-        command_flp
-    };
-
-    // this function works out which function to call depending on user input :D
 
     // if        (INPUT_IS_EQUAL("shutdown")){
     //     return_struct = command_shutdown(read_in_command, x, y, current_state);
@@ -91,15 +60,67 @@ command execute_command(char * read_in_command, int x, int y, state current_stat
     // } else if (INPUT_IS_EQUAL("flp")){
     //     return_struct = command_flp(read_in_command, x, y, current_state);
 
-    function_index = indexOf(COMMANDS_KEYS, read_in_command, numElements);
 
-    if (function_index != -1){
-        return_struct = COMMANDS_FUNCTIONS[function_index](
-            read_in_command, x, y, current_state);
+command execute_command(char * read_in_command, int x, int y, state current_state){
+    // this function works out which function to call depending on user input :D
+    // int i = -1;
+    char * test = "";
+    int function_index = -1;
+    command return_struct;
+
+    char *COMMANDS_KEYS[3] = {
+        "shutdown",
+        "test",
+        "echo",
+        // "wait",
+        // "whoami",
+        // "help",
+        // "cls",
+        // "flp"
+    };
+
+    unsigned int numElements = 3;
+
+    command (*COMMANDS_FUNCTIONS[3]) (char * read_in_command, int x, int y, state current_state) = {
+        command_shutdown,
+        command_test,
+        command_echo,
+        // command_wait,
+        // command_whoami,
+        // command_help,
+        // command_cls,
+        // command_flp
+    };
+
+    eputs(read_in_command, x, y++);
+    for(function_index=0; function_index<numElements; function_index++) {
+        sprintf(test, "%s %d", COMMANDS_KEYS[function_index], strcmp(COMMANDS_KEYS[function_index], read_in_command));
+        eputs(test, x, y++);
+        if (strcmp(COMMANDS_KEYS[function_index], read_in_command) == 0) {
+            eputs("FOUND", x, y++);
+            break;
+        }
+    }
+
+    if (function_index >= numElements) {
+        eputs("Over", x, y++);
+        function_index = -1;
+    }
+
+    // function_index = indexOf(COMMANDS_KEYS, read_in_command, numElements);
+
+    sprintf(test, "Here; %d", function_index);
+    eputs(test, x, y++);
+
+    if (function_index > -1){
+        return_struct.y_value = y;
+        // return_struct = (****COMMANDS_FUNCTIONS[function_index])(
+        //     read_in_command, x, y, current_state);
     } else {
         eputs(COMMAND_NOT_FOUND, x, y); y++;
         return_struct.y_value = y;
     }
+    // return_struct.y_value = y + 2;
     return return_struct;
 }
 

@@ -18,6 +18,7 @@
 #ifndef __DOSH_DEFINES_H
 #define __DOSH_DEFINES_H
 
+// customs types
 typedef struct {
     char * current_username;
     int something;
@@ -34,10 +35,18 @@ typedef struct {
     int should_shutdown;
 } command;
 
+// typedef int bool;
+
 // Constants :)
 
-// only one display is supported atm
+#ifndef GITVERSION
 
+ #define GITVERSION "beta"
+
+#endif
+
+
+// only one display is supported atm
 // when set to zero, assumed unlimited :D (currently unused)
 #define MAX_DISPLAYS 1
 
@@ -45,12 +54,11 @@ typedef struct {
 
 #define REM_COMMAND 30
 // how many commands to remember; will be used to define the size of an array that stores the previous commands :P = 90
-#define MEMORY_USER_BY_REMEMBERED_COMMANDS = COMMAND_LENGTH * REM_COMMAND
+#define MEMORY_USED_BY_REMEMBERED_COMMANDS = COMMAND_LENGTH * REM_COMMAND
 
 
 // define some basics
 
-// typedef int bool;
 
 #define true 1
 
@@ -90,8 +98,6 @@ typedef struct {
 
 #define SHUTDOWN_MESSAGE "It is now safe to turn off your computer"
 
-
 #define INPUT_IS_EQUAL(command) (strncmp(read_in_command, command, COMMAND_LENGTH) == 0)
-
 
 #endif

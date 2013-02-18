@@ -13,12 +13,8 @@
  *
  **/
 
-#ifndef GITVERSION
- #define GITVERSION "beta"
-#endif
 
-
-// system specific includes
+// standard library includes
 #include "stdlib.h"
 #include "ext/screen.h"
 #include "string.h"
@@ -42,13 +38,14 @@ int main() {
 	register int ch; 					// contains the most recent character entered into the keyboard
 
 	// contains boolean indicating whether or not the current ch is special
-	int ch_stat;
+	bool ch_stat;
 
 	int breaker = 0;				// treated as boolean. primary loop exist when == 1
 	// char * current_user = "Mause";		// contains username of current user
 
 	char * read_in_command = '\0';
-	int command_pointer = sizeof(read_in_command);
+	int command_pointer = 0;
+	// sizeof(read_in_command)
 
 	// char *command_fragment;
 	// char previous_commands[REM_COMMAND][COMMAND_LENGTH];
@@ -65,7 +62,6 @@ int main() {
 	int x = 0;
 	int y = 0;
 
-	current_state.current_username = "Mause";
 
 	eputs("Loading", 0, 0);	// Display loading screen
 	eputc('.', 8, 0);		// Display first point of loading screen
@@ -84,10 +80,12 @@ int main() {
 
 	// try authentication
 	// eputs("Username:", 0, y+1);
+	// for now, stick with a static username
+	// current_state.current_username = "Mause";
 
 	x = 3;
 	y = y + 1;
-	// clock_delay(1, clock_int);	// clock delay, does not work
+	// clock_delay(5);	// clock delay, does not work
 
 	eputs(">> ", 0, 1);
 
@@ -100,13 +98,13 @@ int main() {
 		if (0 == 1){
 			// this is the scrolling logic will end up :P
 		} else {
-			while (ch != 0){ 							// while ch is not null/empty
+			if (ch != 0){ 							// while ch is not null/empty
 				if (ch_stat == false){						// if is not a special key, print it to the terminal
 					eputc(ch, x, y);					// print the ch to the terminal
-					if (strlen(read_in_command) < COMMAND_LENGTH - 1){
-						read_in_command[command_pointer] = ch; // append the ch the the current command
-						command_pointer++;
-					}
+					// if (strlen(read_in_command) < COMMAND_LENGTH - 1){
+					read_in_command[command_pointer] = ch; // append the ch the the current command
+					command_pointer++;
+					// }
 					x++;					// increment the cursor position
 				} else if (ch_stat == true) {	// if ch was a special key
 					if (ch == BACKSPACE) {	// if the special key was a backspace
@@ -128,9 +126,11 @@ int main() {
 							return_struct = execute_command(
 								read_in_command, x, y, current_state);
 							y = return_struct.y_value;
+							// y++; y++;
+							// eputs("Done", x, y++);
 
 							x = 3;											// move the cursor to the home position
-							while (command_pointer != 0){					// this loop will tidy up the command buffer :D
+							while (command_pointer > 0){					// this loop will tidy up the command buffer :D
 								read_in_command[command_pointer] = '\0';
 								command_pointer--;
 							}
@@ -153,7 +153,7 @@ int main() {
 						//x++;							// increment the cursor position
 					}
 				}
-				ch=0;									// reset ch
+				ch = 0;									// reset ch
 			}
 		}
 	}
