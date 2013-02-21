@@ -43,7 +43,8 @@ int main() {
 	int breaker = 0;				// treated as boolean. primary loop exist when == 1
 	// char * current_user = "Mause";		// contains username of current user
 
-	char * read_in_command = '\0';
+	char * read_in_command;
+	// [COMMAND_LENGTH]
 	int command_pointer = 0;
 	// sizeof(read_in_command)
 
@@ -81,11 +82,13 @@ int main() {
 	// try authentication
 	// eputs("Username:", 0, y+1);
 	// for now, stick with a static username
-	// current_state.current_username = "Mause";
+	current_state.current_username = "Mause";
 
 	x = 3;
 	y = y + 1;
-	// clock_delay(5);	// clock delay, does not work
+
+	// clock delay, does not work, will make the screen flash colours :(
+	// clock_delay(5);
 
 	eputs(">> ", 0, 1);
 
@@ -105,11 +108,11 @@ int main() {
 					read_in_command[command_pointer] = ch; // append the ch the the current command
 					command_pointer++;
 					// }
-					x++;					// increment the cursor position
+					x++;						// increment the cursor position
 				} else if (ch_stat == true) {	// if ch was a special key
-					if (ch == BACKSPACE) {	// if the special key was a backspace
-						if (x > 3){			// if the cursor is not within the prompt
-							x--;			// decrement the cursor position
+					if (ch == BACKSPACE) {		// if the special key was a backspace
+						if (x > 3){				// if the cursor is not within the prompt
+							x--;				// decrement the cursor position
 							command_pointer--;	// decrement the command pointer
 							read_in_command[command_pointer] = '\0'; // remove the last character from the current command
 							eputc(' ', x, y);	// clear spot the screen
@@ -120,22 +123,28 @@ int main() {
 						// rotate_by_one(previous_commands, REM_COMMAND);
 						// command_fragment = strtok(read_in_command, " ");
 						if (read_in_command[0] != NULL){
-							y++;							// increment the cursor-y position, standard :P
+							y++;				// increment the cursor-y position, standard :P
 							x = 0;
 
 							return_struct = execute_command(
 								read_in_command, x, y, current_state);
 							y = return_struct.y_value;
-							// y++; y++;
-							// eputs("Done", x, y++);
 
 							x = 3;											// move the cursor to the home position
-							while (command_pointer > 0){					// this loop will tidy up the command buffer :D
-								read_in_command[command_pointer] = '\0';
-								command_pointer--;
+							// command_pointer = COMMAND_LENGTH;
+							command_pointer = 0;
+							read_in_command[0] = '\0';
+							// while (command_pointer > 0){					// this loop will tidy up the command buffer :D
+							// 	read_in_command[command_pointer] = '\0';
+							// 	command_pointer--;
+							// }
+							read_in_command[0] = '\0'; // ensure the first character of the command buffer is clean
+
+							if (return_struct.should_shutdown == true){
+								breaker = 1;
+								break;
 							}
 
-							read_in_command[0] = '\0'; // ensure the first character of the command buffer is clean
 							eputs(">> ", 0, y);
 						}
 

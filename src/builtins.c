@@ -63,56 +63,65 @@ int indexOf(char * arr[], char * string, int numElements){
 
 command execute_command(char * read_in_command, int x, int y, state current_state){
     // this function works out which function to call depending on user input :D
-    // int i = -1;
-    char * test = "";
     int function_index = -1;
     command return_struct;
+    char * test;
 
-    char *COMMANDS_KEYS[3] = {
+    char *COMMANDS_KEYS[8] = {
+        "whoami",
         "shutdown",
+        "poofr",
         "test",
+        "wait",
+        "help",
         "echo",
-        // "wait",
-        // "whoami",
-        // "help",
-        // "cls",
-        // "flp"
+        "cls",
+        // "flp",
     };
 
-    unsigned int numElements = 3;
+    unsigned int numElements = 8;
 
-    command (*COMMANDS_FUNCTIONS[3]) (char * read_in_command, int x, int y, state current_state) = {
+    command (*COMMANDS_FUNCTIONS[8]) (char * read_in_command, int x, int y, state current_state) = {
+        command_whoami,
         command_shutdown,
+        command_poof,
         command_test,
+        command_wait,
+        command_help,
         command_echo,
-        // command_wait,
-        // command_whoami,
-        // command_help,
-        // command_cls,
-        // command_flp
+        command_cls,
+        // command_flp,
     };
 
-    eputs(read_in_command, x, y++);
-    for(function_index=0; function_index<numElements; function_index++) {
-        sprintf(test, "%s %d", COMMANDS_KEYS[function_index], strcmp(COMMANDS_KEYS[function_index], read_in_command));
-        eputs(test, x, y++);
-        if (strcmp(COMMANDS_KEYS[function_index], read_in_command) == 0) {
-            eputs("FOUND", x, y++);
+    for(function_index=0; function_index<numElements; ++function_index) {
+        // sprintf(test, "%d -> \"%s\" -> %d", function_index, COMMANDS_KEYS[function_index], strlen(COMMANDS_KEYS[function_index]));
+        // eputs(test, x, y++);
+        // if (strncmp(COMMANDS_KEYS[function_index], read_in_command, COMMAND_LENGTH) == 0) {-
+        if (strncmp(COMMANDS_KEYS[function_index], read_in_command, strlen(COMMANDS_KEYS[function_index]) - 1) == 0) {
             break;
         }
     }
 
     if (function_index >= numElements) {
-        eputs("Over", x, y++);
+        // eputs("Over", x, y++);
         function_index = -1;
     }
 
-    // function_index = indexOf(COMMANDS_KEYS, read_in_command, numElements);
-
-    sprintf(test, "Here; %d", function_index);
+    sprintf(
+        test, "%s (%d) <-> %s (%d)",
+        read_in_command,
+        strlen(read_in_command),
+        COMMANDS_KEYS[function_index],
+        strlen(COMMANDS_KEYS[function_index]));
     eputs(test, x, y++);
 
+    // function_index = indexOf(COMMANDS_KEYS, read_in_command, numElements);
+
+    // sprintf(test, "Here; %d", function_index);
+    // eputs(test, x, y++);
+
     if (function_index > -1){
+        // eputs(COMMANDS_KEYS[function_index], x, y++);
         return_struct.y_value = y;
         // return_struct = (****COMMANDS_FUNCTIONS[function_index])(
         //     read_in_command, x, y, current_state);
@@ -176,9 +185,10 @@ command command_test(char * read_in_command, int x, int y, state current_state){
 
 command command_shutdown(char * read_in_command, int x, int y, state current_state){
     command return_struct;
-    y=0;
 
     return_struct.y_value=y;
+    return_struct.should_shutdown = true;
+
     return return_struct;
 }
 
@@ -204,26 +214,38 @@ command command_echo(char * read_in_command, int x, int y, state current_state){
 
 
 
-command command_flp(char * read_in_command, int x, int y, state current_state){
+// command command_flp(char * read_in_command, int x, int y, state current_state){
+//     command return_struct;
+
+//     if (strcmp(read_in_command, "flp s") == 0){
+//         eputs(get_human_readable_state(), x, y++);
+//         return_struct.command_status = SUCCESS;
+//     } else if (INPUT_IS_EQUAL("flp r")) {
+//         eputs("Not implemented", x, y++);
+//         return_struct.command_status = FAILURE;
+//     } else if (INPUT_IS_EQUAL("flp w")) {
+//         eputs("Not implemented", x, y++);
+//         return_struct.command_status = FAILURE;
+//     }
+
+//     return_struct.y_value = y;
+//     return_struct.command_status = SUCCESS;
+//     return_struct.command_message = "";
+
+//     return return_struct;
+// }
+
+command command_poof(char * read_in_command, int x, int y, state current_state){
     command return_struct;
 
-    if (strcmp(read_in_command, "flp s") == 0){
-        eputs(get_human_readable_state(), x, y++);
-        return_struct.command_status = SUCCESS;
-    } else if (INPUT_IS_EQUAL("flp r")) {
-        eputs("Not implemented", x, y++);
-        return_struct.command_status = FAILURE;
-    } else if (INPUT_IS_EQUAL("flp w")) {
-        eputs("Not implemented", x, y++);
-        return_struct.command_status = FAILURE;
-    }
+    eputs("POOF!", x, y++);
 
     return_struct.y_value = y;
-    return_struct.command_status = SUCCESS;
-    return_struct.command_message = "";
-
     return return_struct;
 }
+
+
+
 
 
 #endif
