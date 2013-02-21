@@ -57,7 +57,6 @@ int main() {
 
 	command return_struct;
 	state current_state;
-	// char * test;
 
 	// points to where the cursor is
 	int x = 0;
