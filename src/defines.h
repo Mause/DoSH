@@ -20,12 +20,26 @@
 
 // customs types
 typedef struct {
-    char * current_username;
-    int something;
+    int slot;
+} hw_clock;
+
+typedef struct {
+    int slot;
+} hw_floppy_drive;
+
+typedef struct {
+    hw_clock clock;
+    hw_floppy_drive floppy;
+    int hwcount;
+} hardware_obj;
+
+
+typedef struct {
+    char * username;
     char * ENV_KEYS[10];
     char * ENV_VALUES[10];
-} state;
-
+    hardware_obj hardware;
+} session;
 
 typedef struct {
     int y_value;
@@ -34,6 +48,16 @@ typedef struct {
     char * command_message;
     int should_shutdown;
 } command;
+
+
+/* const command COMMAND_STRUCT_TEMPLATE = {
+//     1,
+//     SUCCESS,
+//     0,
+//     "",
+//     0
+// };
+*/
 
 // typedef int bool;
 

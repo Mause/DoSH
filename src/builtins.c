@@ -9,7 +9,7 @@
  *				Lord_DeathMatch;
  *				Mause
  *
- *	Description:	contains built-in shell commands
+ *	Description: contains built-in shell commands
  *
  **/
 
@@ -28,48 +28,50 @@
 #include "libfloppy.h"
 #include "doms_stdlib.h"
 
-int indexOf(char * arr[], char * string, int numElements){
-    int i;
+// int indexOf(char * arr[], char * string, int numElements){
+//     int i;
 
-    for(i=0; i<numElements; ++i) {
-        if (strcmp(arr[i], string) == 0) {
-            return i;
-        }
-    }
+//     for(i=0; i<numElements; ++i) {
+//         if (strcmp(arr[i], string) == 0) {
+//             return i;
+//         }
+//     }
 
-    if (i >= numElements) {
-        return -1;
-    }
-}
+//     if (i >= numElements) {
+//         return -1;
+//     }
+// }
 
-command execute_command(char * read_in_command, int x, int y, state current_state){
+command execute_command(char * read_in_command, int x, int y, session *current_session){
     // this function works out which function to call depending on user input :D
     int function_index = -1;
     command return_struct;
-    // char test[100];
+    return_struct->should_shutdown = 0;
 
-    const char *COMMANDS_KEYS[8] = {
-        "whoami",
+    const char *COMMANDS_KEYS[9] = {
         "shutdown",
+        "whoami",
         "test",
         "wait",
         "help",
         "echo",
         "cls",
         "flp",
+        "hw",
     };
 
-    unsigned int numElements = 8;
+    unsigned int numElements = 9;
 
-    command (*COMMANDS_FUNCTIONS[8]) (char * read_in_command, int x, int y, state current_state) = {
-        command_whoami,
+    command (*COMMANDS_FUNCTIONS[9]) (char * read_in_command, int x, int y, session *current_session) = {
         command_shutdown,
+        command_whoami,
         command_test,
         command_wait,
         command_help,
         command_echo,
         command_cls,
         command_flp,
+        command_hw,
     };
 
     for(function_index=0; function_index<numElements; ++function_index) {
@@ -84,10 +86,9 @@ command execute_command(char * read_in_command, int x, int y, state current_stat
 
     if (function_index > -1){
         return_struct.y_value = y;
-        return_struct = (****COMMANDS_FUNCTIONS[function_index])(
-            read_in_command, x, y, current_state);
+        return_struct = (****COMMANDS_FUNCTIONS[function_index])(read_in_command, x, y, &current_session);
     } else {
-        eputs(COMMAND_NOT_FOUND, x, y); y++;
+        eputs(COMMAND_NOT_FOUND, x, y++);
         return_struct.y_value = y;
     }
 
@@ -95,27 +96,49 @@ command execute_command(char * read_in_command, int x, int y, state current_stat
 }
 
 
-command command_wait(char * read_in_command, int x, int y, state current_state){
+command command_wait(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
 
-    clock_delay(1000);
+    // this does not work at all
+    clock_delay(1000, current_session->hardware.clock.slot);
 
     return_struct.y_value = y;
     return return_struct;
 }
 
-command command_cls(char * read_in_command, int x, int y, state current_state){
+
+command command_cls(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
 
     cls();
-    y=0;
+    y = 0;
 
     return_struct.y_value = y;
     return return_struct;
 }
 
-command command_help(char * read_in_command, int x, int y, state current_state){
+
+command command_hw(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
+    char * output_string = "";
+
+    sprintf(
+        output_string, "Clock slot; %d, hwcount; %d",
+        current_session->hardware.clock.slot, current_session->hardware.hwcount);
+    // sprintf(output_string, "%s", current_session->username);
+    eputs(output_string, x, y++);
+
+    return_struct.y_value = y;
+    return return_struct;
+}
+
+
+command command_help(char * read_in_command, int x, int y, session *current_session){
+    command return_struct;
+    return_struct.should_shutdown = false;
 
     eputs(HELP_RESPONSE, x, y); y++;
 
@@ -123,29 +146,34 @@ command command_help(char * read_in_command, int x, int y, state current_state){
     return return_struct;
 }
 
-command command_whoami(char * read_in_command, int x, int y, state current_state){
-    command return_struct;
 
-    eputs(current_state.current_username, x, y); y++;
+command command_whoami(char * read_in_command, int x, int y, session *current_session){
+    command return_struct;
+    return_struct.should_shutdown = false;
+    char * output_string = "";
+
+    sprintf(output_string, "Username; %s", current_session->username);
+    eputs(output_string, x, y++);
 
     return_struct.y_value = y;
     return return_struct;
 }
 
 
-command command_test(char * read_in_command, int x, int y, state current_state){
+command command_test(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
 
-    eputs("BLEEP! BLOOP! TESTING!", x, y);
-    y++;
+    eputs("BLEEP! BLOOP! TESTING!", x, y++);
 
     return_struct.y_value = y;
     return return_struct;
 }
 
 
-command command_shutdown(char * read_in_command, int x, int y, state current_state){
+command command_shutdown(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
 
     return_struct.y_value=y;
     return_struct.should_shutdown = true;
@@ -154,14 +182,15 @@ command command_shutdown(char * read_in_command, int x, int y, state current_sta
 }
 
 
-command command_echo(char * read_in_command, int x, int y, state current_state){
+command command_echo(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
     // this line cannot be implemented properly until we have a strtok implementation
 
     // TODO: Fix this command
     // next line is reference
     // char *substring(size_t start, size_t stop, const char *src, char *dst, size_t size)
-    // eputs(substring(read_in_command, 5, COMMAND_LENGTH), x, y); y++;
+    // eputs(substring(read_in_command, 5, COMMAND_LENGTH), x, y++);
     // command_fragment = strtok(read_in_command, ' ');
     // while (strcmp(command_fragment,NULL)!=0) {
     //  command_fragment = strtok(NULL, ' ');
@@ -175,11 +204,12 @@ command command_echo(char * read_in_command, int x, int y, state current_state){
 
 
 
-command command_flp(char * read_in_command, int x, int y, state current_state){
+command command_flp(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
+    return_struct.should_shutdown = false;
 
     if (INPUT_IS_EQUAL("flp s")){
-        eputs(get_human_readable_state(), x, y++);
+        eputs(get_human_readable_state(&current_session), x, y++);
         return_struct.command_status = SUCCESS;
     } else if (INPUT_IS_EQUAL("flp r")) {
         eputs("Not implemented", x, y++);

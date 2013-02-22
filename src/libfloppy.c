@@ -1,20 +1,15 @@
-int get_floppy_slot(){
-    int floppy_slot;
-    __asm {
-        .IMPORT floppy_slot
-        set <floppy_slot>, [floppy_slot]
-        ; c-land ^       asm-land ^
-    }
-    return floppy_slot;
-}
+#ifndef __LIBFLOPPY_C
+#define __LIBFLOPPY_C
 
 
+#include "defines.h"
+#include "stdio.h"
 
-int read(int handle, void *buffer, int nbyte){
-    int floppy_slot;
-    floppy_slot = get_floppy_slot();
-    return floppy_slot;
-}
+// int read(int handle, void *buffer, int nbyte){
+//     int floppy_slot;
+//     floppy_slot = get_floppy_slot();
+//     return floppy_slot;
+// }
 
 
 
@@ -25,13 +20,14 @@ int read(int handle, void *buffer, int nbyte){
 // Same as ready, except the floppy is write protected.
 #define STATE_READY_WP 0x0002
 
-int get_state(){
+int get_floppy_state(session *current_session){
     int cur_state;
+    int floppy_slot = current_session->hardware.floppy.slot;
     __asm{
-        .IMPORT floppy_slot
         set push, B
         set push, C
-        HWI [floppy_slot]
+        set b, 0x0
+        HWI <floppy_slot>
         set <cur_state>, B
         set B, pop
         set C, pop
@@ -40,8 +36,9 @@ int get_state(){
 }
 
 
-char * get_human_readable_state(){
-    int cur_state = get_state();
+char * get_human_readable_state(session *current_session){
+    int cur_state = get_floppy_state(&current_session);
+    // char * test = "";
     if (cur_state == STATE_NO_MEDIA) {
         return "STATE_NO_MEDIA";
     } else if (cur_state == STATE_READY) {
@@ -49,6 +46,9 @@ char * get_human_readable_state(){
     } else if (cur_state == STATE_READY_WP) {
         return "STATE_READY_WP";
     } else {
+        // sprintf(test, "STATE_UNKNOWN; %d", cur_state);
         return "STATE_UNKNOWN";
     }
 }
+
+#endif

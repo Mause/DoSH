@@ -56,7 +56,7 @@ int main() {
 	// char * lines[16];
 
 	command return_struct;
-	state current_state;
+	session current_session;
 
 	// points to where the cursor is
 	int x = 0;
@@ -66,7 +66,7 @@ int main() {
 	eputs("Loading", 0, 0);	// Display loading screen
 	eputc('.', 8, 0);		// Display first point of loading screen
 	// hwcount = find_hw();
-	find_hw();
+	find_hw(&current_session);
 	// scrn_border_colour(0); 	// set screen border to black (hopefully)
 	eputc('.', 9, 0);		// Display second point of loading screen
 
@@ -81,10 +81,10 @@ int main() {
 	// try authentication
 	// eputs("Username:", 0, y+1);
 	// for now, stick with a static username
-	current_state.current_username = "Mause";
+	current_session.username = "Mause";
 
 	x = 3;
-	y = y + 1;
+	y++;
 
 	// clock delay, does not work, will make the screen flash colours :(
 	// clock_delay(5);
@@ -125,14 +125,13 @@ int main() {
 							y++;				// increment the cursor-y position, standard :P
 							x = 0;
 
-							return_struct = execute_command(
-								read_in_command, x, y, current_state);
+							return_struct = execute_command(read_in_command, x, y, &current_session);
 							y = return_struct.y_value;
 
 							x = 3;											// move the cursor to the home position
 							// command_pointer = COMMAND_LENGTH;
 							command_pointer = 0;
-							read_in_command[0] = '\0';
+							// read_in_command[0] = '\0';
 							// while (command_pointer > 0){					// this loop will tidy up the command buffer :D
 							// 	read_in_command[command_pointer] = '\0';
 							// 	command_pointer--;

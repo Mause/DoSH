@@ -308,7 +308,7 @@ void doms_delay(int delay) {
 
 
 // this bugs out atm, no real idea why
-int clock_delay (int delay) { // delay in seconds
+int clock_delay (int delay, int slot) { // delay in seconds
 	__asm{
 		SET PUSH, A
 		SET PUSH, B
@@ -319,20 +319,21 @@ int clock_delay (int delay) { // delay in seconds
 		:clockloopA				;// Part 1 of the loop, sets and resets the clock ticking.
 			SET A, 0			;// Sets a to 0, which means when we interrupt our clock we set it to start ticking
 			SET B, 1			;// Replace 60 with any integer to define how often the clock will tick. If you set it to 1, the clock will tick at a rate of 60/1 or 60 ticks per second. If it is 2 it will tick at 60/2, or 30 ticks per second, which is less presice. If it is 3 it is 60/3 or 20 TPS(Ticks per second) etc. Setting it to 60 means 1 tick = 1 second.
-			HWI [clock_slot]		;// Sends an interrupt to our clock. Replace (clock slot) with the actual clock slot. (But dont hard code it for portability)
+			HWI <slot>		;// Sends an interrupt to our clock. Replace (clock slot) with the actual clock slot. (But dont hard code it for portability)
 								;// our clock should now be ticking at a rate of 1 TPS(Ticks per second)
 
 		:clockloopB				;// Part 2 of the loop, which waits for ten seconds then does some code, then goes back to clockloopA. Runs directly after part 1.
 			SET A, 1			;// sets a to one so we can get the amount of time since we last sent a 0 interrupt (an interrupt sent to the clock while a=0)
-			HWI [clock_slot]
+			HWI <slot>
 			IFG C, <delay>			;//if C is 10 (or higher, because we might miss the exact tick where C = 10 and be stuck in an infinite loop)
 				set pc, enddelay
 			set pc, clockloopB	;//otherwise we loop
 
 		:enddelay
-		SET A, 0
-		SET B, 0
-		HWI [clock_slot]
+		SET A, 0x0
+		SET B, 0x0
+		SET C, 0x0
+		HWI <slot>
 		;//set z, 777				;do whatever you want here instead of setting Z to 777
 		;//set pc, clockloopA		;We set it to A because it resets the timer, and C only reads from the clocks last 0 interrupt.
 		SET C, POP
@@ -355,8 +356,10 @@ int blink_cursor(int times, int x, int y, int delay) { // this is untested
 }
 
 
-int find_hw(){ // initiates hardware, returns number of connected devices
+void find_hw(session *current_session){ // initiates hardware, returns number of connected devices
 	int hwcount;
+	int clock_slot;
+
 	__asm{
 		SET PUSH, A
 		SET PUSH, B
@@ -378,7 +381,7 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 					SET [key_slot], I
 			IFE 0x12d0, B
 				IFE 0xb402, A
-					SET [clock_slot], I
+					SET <clock_slot>, I
 			IFE 0x5678, B
 				IFE 0x1234, A
 					SET [floppy_slot], I
@@ -393,12 +396,12 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 		set pc, variables_end
 		:key_slot dat 0x0
 		:display_slot
-		:clock_slot dat 0x0
+		;// :clock_slot dat 0x0
 		:floppy_slot dat 0x0
 		:fore_color dat 0xf ;0x0 .. 0xf
 		:back_color dat 0x1 ;0x0 .. 0xf
 		:carot_char dat 0x5f
-		.EXPORT clock_slot
+		;// .EXPORT clock_slot
 		.EXPORT floppy_slot
 		.EXPORT fore_color
 		.EXPORT back_color
@@ -416,7 +419,9 @@ int find_hw(){ // initiates hardware, returns number of connected devices
 		SET B, POP
 		SET A, POP
 	}
-	return hwcount;
+	current_session->hardware.clock.slot = 7777;
+ 	current_session->hardware.hwcount = hwcount;
+ 	// return current_session;
 }
 
 void rotate_by_one(char * arr[], int n){
