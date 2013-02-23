@@ -28,25 +28,11 @@
 #include "libfloppy.h"
 #include "doms_stdlib.h"
 
-// int indexOf(char * arr[], char * string, int numElements){
-//     int i;
-
-//     for(i=0; i<numElements; ++i) {
-//         if (strcmp(arr[i], string) == 0) {
-//             return i;
-//         }
-//     }
-
-//     if (i >= numElements) {
-//         return -1;
-//     }
-// }
 
 command execute_command(char * read_in_command, int x, int y, session *current_session){
     // this function works out which function to call depending on user input :D
     int function_index = -1;
     command return_struct;
-    return_struct->should_shutdown = 0;
 
     const char *COMMANDS_KEYS[9] = {
         "shutdown",
@@ -73,6 +59,8 @@ command execute_command(char * read_in_command, int x, int y, session *current_s
         command_flp,
         command_hw,
     };
+
+    return_struct.should_shutdown = false;
 
     for(function_index=0; function_index<numElements; ++function_index) {
         if (strncmp(COMMANDS_KEYS[function_index], read_in_command, strlen(COMMANDS_KEYS[function_index]) - 1) == 0) {
@@ -122,8 +110,8 @@ command command_cls(char * read_in_command, int x, int y, session *current_sessi
 
 command command_hw(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
-    return_struct.should_shutdown = false;
     char * output_string = "";
+    return_struct.should_shutdown = false;
 
     sprintf(
         output_string, "Clock slot; %d, hwcount; %d",
@@ -149,8 +137,8 @@ command command_help(char * read_in_command, int x, int y, session *current_sess
 
 command command_whoami(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
-    return_struct.should_shutdown = false;
     char * output_string = "";
+    return_struct.should_shutdown = false;
 
     sprintf(output_string, "Username; %s", current_session->username);
     eputs(output_string, x, y++);
@@ -173,7 +161,6 @@ command command_test(char * read_in_command, int x, int y, session *current_sess
 
 command command_shutdown(char * read_in_command, int x, int y, session *current_session){
     command return_struct;
-    return_struct.should_shutdown = false;
 
     return_struct.y_value=y;
     return_struct.should_shutdown = true;
