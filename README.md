@@ -2,7 +2,7 @@ DoSH
 =======
 
 This is an attempt at an extensible shell framework for the DCPU16 platform.
-It is intended to be compiled under the [DCPUToolchain](http://DCPUToolcha.in).
+It is intended to be compiled under the [dcpu-cc](https://github.com/r4d2/dcpu-cc) C89 compiler, an instance of which is available with the [DCPUToolchain](http://DCPUToolcha.in).
 
 ### Build Instructions;
 First of all, you require a copy of the DCPUToolchain; binaries for linux or windows can be downloaded from [the official website](http://DCPUToolcha.in). If you require a Mac OS X version, unless things have changed since i wrote this, you will have to compile the toolchain from scratch. Once you have extracted the files somewhere, cd to the directory where you extracted the tarball's contents in the shell of your choice, and execute the following;
